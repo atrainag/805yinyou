@@ -13,15 +13,16 @@
 
 # Contributing Rules (貢獻規則)
 
-Make sure to use the asmfmt.py on your a51 files before pushing to git.\
-確保在推送到 git 之前在 a51 檔案上使用 asmfmt.py。
+> [!IMPORTANT]
+> Make sure to use the asmfmt.py on your a51 files before pushing to git.\
+> 確保在推送到 git 之前在 a51 檔案上使用 asmfmt.py。
 
 ## How to use asmfmt.py (如何使用asmfmt.py)
 
 At the directory of the asmfmt.py file, open a terminal or command prompt and write following command.\
 在 asmfmt.py 檔案的目錄中，開啟終端機或命令提示字元並寫入以下命令。
 
-```
+```bash
 python asmfmt.py filename.a51
 ```
 
