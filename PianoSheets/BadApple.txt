@@ -1,0 +1,21 @@
+( (Y YTY( (Y YTY( (Y YTYI YIO IO
+( (Y YTY( (Y YTY( (Y YTYO IOI YI
+( (Y YTY( (Y YTY( (Y YTYI YIO IO
+( (Y YTY( (Y YTY( (Y YTYO IOI YI
+[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i]YiI[9i]Yyi
+[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i] I [9O] P
+[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i]YiI[9i]Yyi
+[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i] I [9O] P
+[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y]
+[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP DgGgDSP OPOIiTY
+
+song:
+( (Y YTY( (Y YTY( (Y YTYI YIO IO( (Y YTY( (Y YTY( (Y YTYO IOI YI( (Y YTY( (Y YTY( (Y YTYI YIO IO( (Y YTY( (Y YTY( (Y YTYO IOI YI[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i]YiI[9i]Yyi[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i] I [9O] P [(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i]YiI[9i]Yyi[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i] I [9O] P [(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP DgGgDSP OPOIiTY
+
+chord:
+eflat 
+bmajor   b d# a#
+dflat major  dflat f aflat
+bflat major  d f bflat
+
+( =  to
