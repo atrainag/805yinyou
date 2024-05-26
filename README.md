@@ -4,12 +4,21 @@
 
 # Roadmap:
 
-- [ ] Finding 4 music to implement
+- [ ] Finding 3 music to implement
 - [ ] Implement the mapping
 - [ ] Implement scoring
 - [ ] Implement win condition
 - [ ] Memory for high score
 - [ ] Interface for changing music
+
+## Current To do
+
+- [ ] Mapping the song on the 8x8 LED
+- [ ] Implementing Scoring
+
+## Finished Task
+
+- [x] Finished writig Assembly code for Bad Apple songs
 
 # Contributing Rules (貢獻規則)
 
@@ -23,11 +32,22 @@ At the directory of the asmfmt.py file, open a terminal or command prompt and wr
 在 asmfmt.py 檔案的目錄中，開啟終端機或命令提示字元並寫入以下命令。
 
 ```bash
-python asmfmt.py filename.a51
+python asmfmt.py -f filename.a51
 ```
 
 Change filename.a51 into your a51 files.\
 將 filename.a51 變更為您的 a51 檔案。
 
-Currently it only supports one files at the time, multiple files will be implemented on later date.\
-目前暫時只支援一個文件，後續會實現多個文件。
+Or if you wanted to format all assembly files on a directory you can do this with the following command.\
+或者，如果您想要格式化目錄中的所有組件文件，可以使用以下命令來執行此操作。
+
+```bash
+#If you are using linux
+python asmfmt.py -d /path/to/directory
+
+#If you are using windows
+python asmfmt.py -d \path\to\directory
+```
+
+Note: Notice the difference of `\` and `/`.\
+備註: 注意“\”和“/”的區別。
