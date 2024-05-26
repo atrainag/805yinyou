@@ -12,5 +12,5 @@ def round_numbers_in_file(filename):
                 file.write(line)
 
 # Specify the filename
-filename = 'Notes.txt'
+filename = 'NotesFreq.txt'
 round_numbers_in_file(filename)

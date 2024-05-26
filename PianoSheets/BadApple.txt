@@ -10,7 +10,22 @@
 [(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP DgGgDSP OPOIiTY
 
 song:
-( (Y YTY( (Y YTY( (Y YTYI YIO IO( (Y YTY( (Y YTY( (Y YTYO IOI YI( (Y YTY( (Y YTY( (Y YTYI YIO IO( (Y YTY( (Y YTY( (Y YTYO IOI YI[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i]YiI[9i]Yyi[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i] I [9O] P [(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i]YiI[9i]Yyi[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i] I [9O] P [(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP DgGgDSP OPOIiTY
+( (Y YTY( (Y YTY( (Y YTYI YIO IO( (Y YTY( (Y YTY( (Y YTYO IOI YI( (Y YTY( (Y YTY( (Y YTYI YIO IO( (Y YTY( (Y YTY( (Y YTYO IOI YI[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i]YiI[9i]Yyi[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i] I [9O] P [(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i]YiI[9i]Yyi[(Y]iIOP DS[(P] Y POIi[7Y]iIOP OI[*i] I [9O] P [(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP OP[7O]IiTY TY[*i]IOP[9Y] PS[(S]DPOP OP[(S]DPOP Dg[7G]gDSP OP[*O]IiT[EY]
+
+song+bass:
+alt : [((][E][((][EY][(][ET][(Y][E(][(][E(][(Y][E][(Y][ET][(Y]
+[((][E][((][EY][(][EY][(T][EY][((][E][((][EY][(][EY][(T][EY][7(][Q][7(][QY][7][QY][7T][QY][*I][W][*Y][WI][9O][E][9I][EO][((][E][((][EY][(][EY][(T][EY][((][E][((][EY][(][EY][(T][EY][7(][Q][7(][QY][7][QY][7T][QY][*O][W][*I][WO][9I][E][9Y][EI]
+[(Y][Ei][(I][EO][(P][E][(D][ES][(P][E][(Y][E][(P][EO][(I][Ei][7Y][Qi][7I][QO][7P][Q][7O][QI][*i][WY][*i][WI][9i][EY][9y][Ei][(Y][Ei][(I][EO][YP][E][(D][ES][(P][E][(Y][E][(P][EO][(I][Ei][7Y][Qi][7I][QO][7P][Q][7O][QI][*i][W][*I][W][9O][E][9P][E]
+[(S][ED][(P][EO][(P][E][(O][EP][(S][ED][(P][EO][(P][E][(O][EP][7O][QI][7i][QT][7Y][Q][7T][QY][*i][WI][*O][WP][9Y][E][9P][ES][(S][ED][(P][EO][(P][E][(O][EP][(S][ED][(P][EO][(P][E][(O][EP][7O][QI][7i][QT][7Y][Q][7T][QY][*i][WI][*O][WP][9Y][E][9P][ES]
+[(S][ED][(P][EO][(P][E][(O][EP][(S][ED][(P][EO][(P][E][(O][EP][7O][QI][7i][QT][7Y][Q][7T][QY][*i][WI][*O][WP][9Y][E][9P][ES][(S][ED][(P][EO][(P][E][(O][EP][(S][ED][(P][EO][(P][E][(D][Eg][7G][Qg][7D][QS][7P][Q][7O][QP][*O][WI][*i][WT][9Y][E][9][E]
+full: 
+[((][E][((][EY][(][EY][(T][EY][((][E][((][EY][(][EY][(T][EY][7(][Q][7(][QY][7][QY][7T][QY][*I][W][*Y][WI][9O][E][9I][EO][((][E][((][EY][(][EY][(T][EY][((][E][((][EY][(][EY][(T][EY][7(][Q][7(][QY][7][QY][7T][QY][*O][W][*I][WO][9I][E][9Y][EI][((][E][((][EY][(][EY][(T][EY][((][E][((][EY][(][EY][(T][EY][7(][Q][7(][QY][7][QY][7T][QY][*I][W][*Y][WI][9O][E][9I][EO][((][E][((][EY][(][EY][(T][EY][((][E][((][EY][(][EY][(T][EY][7(][Q][7(][QY][7][QY][7T][QY][WO][ ][ ][ ][QI][ ][ ][ ][(Y][Ei][(I][EO][(P][E][(D][ES][(P][E][(Y][E][(P][EO][(I][Ei][7Y][Qi][7I][QO][7P][Q][7O][QI][*i][WY][*i][WI][9i][EY][9y][Ei][(Y][Ei][(I][EO][YP][E][(D][ES][(P][E][(Y][E][(P][EO][(I][Ei][7Y][Qi][7I][QO][7P][Q][7O][QI][*i][W][*I][W][9O][E][9P][E][(Y][Ei][(I][EO][(P][E][(D][ES][(P][E][(Y][E][(P][EO][(I][Ei][7Y][Qi][7I][QO][7P][Q][7O][QI][*i][WY][*i][WI][9i][EY][9y][Ei][(Y][Ei][(I][EO][YP][E][(D][ES][(P][E][(Y][E][(P][EO][(I][Ei][7Y][Qi][7I][QO][7P][Q][7O][QI][*i][W][*I][W][9O][E][9P][E][(S][ED][(P][EO][(P][E][(O][EP][(S][ED][(P][EO][(P][E][(O][EP][7O][QI][7i][QT][7Y][Q][7T][QY][*i][WI][*O][WP][9Y][E][9P][ES][(S][ED][(P][EO][(P][E][(O][EP][(S][ED][(P][EO][(P][E][(O][EP][7O][QI][7i][QT][7Y][Q][7T][QY][*i][WI][*O][WP][9Y][E][9P][ES][(S][ED][(P][EO][(P][E][(O][EP][(S][ED][(P][EO][(P][E][(O][EP][7O][QI][7i][QT][7Y][Q][7T][QY][*i][WI][*O][WP][9Y][E][9P][ES][(S][ED][(P][EO][(P][E][(O][EP][(S][ED][(P][EO][(P][E][(D][Eg][7G][Qg][7D][QS][7P][Q][7O][QP][*O][WI][*i][WT][9Y][E][9][E]
+
+Bass:
+@^@^@^@^@^@^@^@^7Q7Q7Q7Q*W*W9E9E(E(E(E(E(E(E(E(E7Q7Q7Q7Q*W*W9E9E
+(E(E(E(E(E(E(E(E7Q7Q7Q7Q*W*W9E9E(E(E(E(E(E(E(E(E7Q7Q7Q7Q*W*W9E9E
+
+Melody:
 
 chord:
 eflat 
@@ -18,4 +33,3 @@ bmajor   b d# a#
 dflat major  dflat f aflat
 bflat major  d f bflat
 
-( =  to

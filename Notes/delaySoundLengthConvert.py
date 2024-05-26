@@ -18,8 +18,8 @@ def process_notes(input_file, output_file):
                 outfile.write(f"{note:3s} {dl:3d} {sl:3d}\n")
 
 # Specify the input and output filenames
-input_file = 'Notes.txt'
-output_file = 'DLSL.txt'
+input_file = 'NotesFreq.txt'
+output_file = 'DLSL2.txt'
 
 # Process the notes
 process_notes(input_file, output_file)
