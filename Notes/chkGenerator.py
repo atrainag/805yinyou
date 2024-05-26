@@ -23,8 +23,8 @@ def process_dlsl_for_chk(input_file, output_file):
         outfile.write(final_chk)
 
 # Specify the input and output filenames
-input_file = 'DLSL.txt'
-output_file = 'generatedCheckNotes.a51'
+input_file = 'DLSL2.txt'
+output_file = 'generatedCheckNotes2.a51'
 
 # Process the DLSL data to generate CHK
 process_dlsl_for_chk(input_file, output_file)
