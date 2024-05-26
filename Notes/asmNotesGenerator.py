@@ -21,8 +21,8 @@ def process_dlsl(input_file, output_file):
                 outfile.write(asm_code)
 
 # Specify the input and output filenames
-input_file = 'DLSL.txt'
-output_file = 'generateAsmNotes.a51'
+input_file = 'DLSL2.txt'
+output_file = 'generateAsmNotes2.a51'
 
 # Process the DLSL data
 process_dlsl(input_file, output_file)
