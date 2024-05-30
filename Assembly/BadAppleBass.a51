@@ -17,97 +17,97 @@ OK:         PUSH        ACC
 CHK1:       CJNE        A,          #1,         CHK2        
             ACALL       B6          
 CHK2:       CJNE        A,          #2,         CHK3        
-            ACALL       A#6         
+            ACALL       AS6         
 CHK3:       CJNE        A,          #3,         CHK4        
             ACALL       A6          
 CHK4:       CJNE        A,          #4,         CHK5        
-            ACALL       G#6         
+            ACALL       GS6         
 CHK5:       CJNE        A,          #5,         CHK6        
             ACALL       G6          
 CHK6:       CJNE        A,          #6,         CHK7        
-            ACALL       F#6         
+            ACALL       FS6         
 CHK7:       CJNE        A,          #7,         CHK8        
             ACALL       F6          
 CHK8:       CJNE        A,          #8,         CHK9        
             ACALL       E6          
 CHK9:       CJNE        A,          #9,         CHK10       
-            ACALL       D#6         
+            ACALL       DS6         
 CHK10:      CJNE        A,          #10,        CHK11       
             ACALL       D6          
 CHK11:      CJNE        A,          #11,        CHK12       
-            ACALL       C#6         
+            ACALL       CS6         
 CHK12:      CJNE        A,          #12,        CHK13       
             ACALL       C6          
 CHK13:      CJNE        A,          #13,        CHK14       
             ACALL       B5          
 CHK14:      CJNE        A,          #14,        CHK15       
-            ACALL       A#5         
+            ACALL       AS5         
 CHK15:      CJNE        A,          #15,        CHK16       
             ACALL       A5          
 CHK16:      CJNE        A,          #16,        CHK17       
-            ACALL       G#5         
+            ACALL       GS5         
 CHK17:      CJNE        A,          #17,        CHK18       
             ACALL       G5          
 CHK18:      CJNE        A,          #18,        CHK19       
-            ACALL       F#5         
+            ACALL       FS5         
 CHK19:      CJNE        A,          #19,        CHK20       
             ACALL       F5          
 CHK20:      CJNE        A,          #20,        CHK21       
             ACALL       E5          
 CHK21:      CJNE        A,          #21,        CHK22       
-            ACALL       D#5         
+            ACALL       DS5         
 CHK22:      CJNE        A,          #22,        CHK23       
             ACALL       D5          
 CHK23:      CJNE        A,          #23,        CHK24       
-            ACALL       C#5         
+            ACALL       CS5         
 CHK24:      CJNE        A,          #24,        CHK25       
             ACALL       C5          
 CHK25:      CJNE        A,          #25,        CHK26       
             ACALL       B4          
 CHK26:      CJNE        A,          #26,        CHK27       
-            ACALL       A#4         
+            ACALL       AS4         
 CHK27:      CJNE        A,          #27,        CHK28       
             ACALL       A4          
 CHK28:      CJNE        A,          #28,        CHK29       
-            ACALL       G#4         
+            ACALL       GS4         
 CHK29:      CJNE        A,          #29,        CHK30       
             ACALL       G4          
 CHK30:      CJNE        A,          #30,        CHK31       
-            ACALL       F#4         
+            ACALL       FS4         
 CHK31:      CJNE        A,          #31,        CHK32       
             ACALL       F4          
 CHK32:      CJNE        A,          #32,        CHK33       
             ACALL       E4          
 CHK33:      CJNE        A,          #33,        CHK34       
-            ACALL       D#4         
+            ACALL       DS4         
 CHK34:      CJNE        A,          #34,        CHK35       
             ACALL       D4          
 CHK35:      CJNE        A,          #35,        CHK36       
-            ACALL       C#4         
+            ACALL       CS4         
 CHK36:      CJNE        A,          #36,        CHK37       
             ACALL       C4          
 CHK37:      CJNE        A,          #37,        CHK38       
             ACALL       B3          
 CHK38:      CJNE        A,          #38,        CHK39       
-            ACALL       A#3         
+            ACALL       AS3         
 CHK39:      CJNE        A,          #39,        CHK40       
             ACALL       A3          
 CHK40:      CJNE        A,          #40,        CHK41       
-            ACALL       G#3         
+            ACALL       GS3         
 CHK41:      CJNE        A,          #41,        CHK42       
             ACALL       G3          
 CHK42:      CJNE        A,          #42,        CHK43       
-            ACALL       F#3         
+            ACALL       FS3         
 CHK43:      CJNE        A,          #43,        CHK44       
             ACALL       F3          
 CHK44:      CJNE        A,          #44,        CHK45       
             ACALL       E3          
 CHK45:      CJNE        A,          #45,        CHK46       
-            ACALL       D#3         
+            ACALL       DS3         
 CHK46:      CJNE        A,          #46,        CHK47       
             ACALL       D3          
 CHK47:      CJNE        A,          #47,        CHK48       
-            ACALL       C#3         
+            ACALL       CS3         
 CHK48:      CJNE        A,          #48,        CHK0        
             ACALL       C3          
 CHK0:       CJNE        A,          #00,        CONT2       
@@ -118,19 +118,19 @@ CONT2:      INC         DPTR
 B6:         MOV         R6,         #16         
             MOV         R5,         #247        
             AJMP        OUTPUT      
-A#6:        MOV         R6,         #17         
+AS6:        MOV         R6,         #17         
             MOV         R5,         #233        
             AJMP        OUTPUT      
 A6:         MOV         R6,         #18         
             MOV         R5,         #220        
             AJMP        OUTPUT      
-G#6:        MOV         R6,         #19         
+GS6:        MOV         R6,         #19         
             MOV         R5,         #208        
             AJMP        OUTPUT      
 G6:         MOV         R6,         #21         
             MOV         R5,         #196        
             AJMP        OUTPUT      
-F#6:        MOV         R6,         #22         
+FS6:        MOV         R6,         #22         
             MOV         R5,         #185        
             AJMP        OUTPUT      
 F6:         MOV         R6,         #23         
@@ -139,13 +139,13 @@ F6:         MOV         R6,         #23
 E6:         MOV         R6,         #25         
             MOV         R5,         #165        
             AJMP        OUTPUT      
-D#6:        MOV         R6,         #26         
+DS6:        MOV         R6,         #26         
             MOV         R5,         #156        
             AJMP        OUTPUT      
 D6:         MOV         R6,         #28         
             MOV         R5,         #147        
             AJMP        OUTPUT      
-C#6:        MOV         R6,         #29         
+CS6:        MOV         R6,         #29         
             MOV         R5,         #139        
             AJMP        OUTPUT      
 C6:         MOV         R6,         #31         
@@ -154,19 +154,19 @@ C6:         MOV         R6,         #31
 B5:         MOV         R6,         #33         
             MOV         R5,         #124        
             AJMP        OUTPUT      
-A#5:        MOV         R6,         #35         
+AS5:        MOV         R6,         #35         
             MOV         R5,         #116        
             AJMP        OUTPUT      
 A5:         MOV         R6,         #37         
             MOV         R5,         #110        
             AJMP        OUTPUT      
-G#5:        MOV         R6,         #40         
+GS5:        MOV         R6,         #40         
             MOV         R5,         #104        
             AJMP        OUTPUT      
 G5:         MOV         R6,         #42         
             MOV         R5,         #98         
             AJMP        OUTPUT      
-F#5:        MOV         R6,         #44         
+FS5:        MOV         R6,         #44         
             MOV         R5,         #92         
             AJMP        OUTPUT      
 F5:         MOV         R6,         #47         
@@ -175,13 +175,13 @@ F5:         MOV         R6,         #47
 E5:         MOV         R6,         #50         
             MOV         R5,         #82         
             AJMP        OUTPUT      
-D#5:        MOV         R6,         #53         
+DS5:        MOV         R6,         #53         
             MOV         R5,         #78         
             AJMP        OUTPUT      
 D5:         MOV         R6,         #56         
             MOV         R5,         #73         
             AJMP        OUTPUT      
-C#5:        MOV         R6,         #60         
+CS5:        MOV         R6,         #60         
             MOV         R5,         #69         
             AJMP        OUTPUT      
 C5:         MOV         R6,         #63         
@@ -190,19 +190,19 @@ C5:         MOV         R6,         #63
 B4:         MOV         R6,         #67         
             MOV         R5,         #62         
             AJMP        OUTPUT      
-A#4:        MOV         R6,         #71         
+AS4:        MOV         R6,         #71         
             MOV         R5,         #58         
             AJMP        OUTPUT      
 A4:         MOV         R6,         #75         
             MOV         R5,         #55         
             AJMP        OUTPUT      
-G#4:        MOV         R6,         #80         
+GS4:        MOV         R6,         #80         
             MOV         R5,         #52         
             AJMP        OUTPUT      
 G4:         MOV         R6,         #84         
             MOV         R5,         #49         
             AJMP        OUTPUT      
-F#4:        MOV         R6,         #89         
+FS4:        MOV         R6,         #89         
             MOV         R5,         #46         
             AJMP        OUTPUT      
 F4:         MOV         R6,         #95         
@@ -211,13 +211,13 @@ F4:         MOV         R6,         #95
 E4:         MOV         R6,         #100        
             MOV         R5,         #41         
             AJMP        OUTPUT      
-D#4:        MOV         R6,         #107        
+DS4:        MOV         R6,         #107        
             MOV         R5,         #39         
             AJMP        OUTPUT      
 D4:         MOV         R6,         #113        
             MOV         R5,         #37         
             AJMP        OUTPUT      
-C#4:        MOV         R6,         #120        
+CS4:        MOV         R6,         #120        
             MOV         R5,         #35         
             AJMP        OUTPUT      
 C4:         MOV         R6,         #127        
@@ -226,19 +226,19 @@ C4:         MOV         R6,         #127
 B3:         MOV         R6,         #134        
             MOV         R5,         #31         
             AJMP        OUTPUT      
-A#3:        MOV         R6,         #142        
+AS3:        MOV         R6,         #142        
             MOV         R5,         #29         
             AJMP        OUTPUT      
 A3:         MOV         R6,         #151        
             MOV         R5,         #28         
             AJMP        OUTPUT      
-G#3:        MOV         R6,         #160        
+GS3:        MOV         R6,         #160        
             MOV         R5,         #26         
             AJMP        OUTPUT      
 G3:         MOV         R6,         #169        
             MOV         R5,         #24         
             AJMP        OUTPUT      
-F#3:        MOV         R6,         #180        
+FS3:        MOV         R6,         #180        
             MOV         R5,         #23         
             AJMP        OUTPUT      
 F3:         MOV         R6,         #190        
@@ -247,13 +247,13 @@ F3:         MOV         R6,         #190
 E3:         MOV         R6,         #201        
             MOV         R5,         #21         
             AJMP        OUTPUT      
-D#3:        MOV         R6,         #213        
+DS3:        MOV         R6,         #213        
             MOV         R5,         #20         
             AJMP        OUTPUT      
 D3:         MOV         R6,         #226        
             MOV         R5,         #18         
             AJMP        OUTPUT      
-C#3:        MOV         R6,         #239        
+CS3:        MOV         R6,         #239        
             MOV         R5,         #17         
             AJMP        OUTPUT      
 C3:         MOV         R6,         #254        
@@ -267,7 +267,7 @@ NON:        MOV         R6,         #33
 OUTPUT:     PUSH        05          
 LOOP:       CJNE        A,          #00,        SOUND       
             AJMP        MUTE        
-            SOUND       CLR         P2.6        
+SOUND:       CLR         P2.6        
 MUTE:       ACALL       DELAY       
             SETB        P2.6        
             ACALL       DELAY       
