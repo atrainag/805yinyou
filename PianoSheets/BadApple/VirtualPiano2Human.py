@@ -1,9 +1,9 @@
 import sys
 import os
 
-def convert(input_file,output_file):
+def convert(input_file,output_file,melo,bass):
     dictionary = {" ":"BLK"}
-    translationFile = r'.\PianoSheets\Translation.txt'
+    translationFile = r'.\PianoSheets\BadApple\Translation.txt'
     with open(translationFile,'r')as translfile:
         for i in (translfile.readlines()):
             key, val = i.strip().split()
@@ -42,10 +42,14 @@ def convert(input_file,output_file):
         outfile.write(" ".join(melodyH))
         outfile.write("\n\nBASS Human:\n")
         outfile.write(" ".join(bassH))
-
+    with open(melo,'w') as mel:
+        mel.write(" ".join(melodyH))
+    with open(bass,'w') as bas:
+        bas.write(" ".join(bassH))
 # Specify the input and output filenames
-input_file = r'.\PianoSheets\BadAppleSong.txt'
-output_file = r'.\PianoSheets\BadAppleSongHuman.txt'
-
+input_file = r'.\PianoSheets\BadApple\BadAppleSong.txt'
+output_file = r'.\PianoSheets\BadApple\BadAppleSongHuman.txt'
+output_melody = r'.\PianoSheets\BadApple\BadAppleMelody.txt'
+output_bass= r'.\PianoSheets\BadApple\BadAppleBass.txt'
 # Process the DLSL data to generate CHK
-convert(input_file, output_file)
+convert(input_file, output_file,output_melody,output_bass)

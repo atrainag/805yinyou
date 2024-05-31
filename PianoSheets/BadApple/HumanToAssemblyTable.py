@@ -2,7 +2,7 @@ import sys
 
 def convert(input_file, output_file):
     dictionary = {}
-    translationFile = "TranslationHumanToNoteCode.txt"
+    translationFile = r".\PianoSheets\BadApple\TranslationHumanToNoteCode.txt"
     with open(translationFile, 'r') as translfile:
         cnt = 0
         for i in translfile.readlines():
@@ -14,21 +14,28 @@ def convert(input_file, output_file):
     lines = lines.split() 
     with open(output_file, 'w') as outfile:
         cnt = 0
+        totcnt = 0
         for i in lines:
             if(cnt == 0):
-                outfile.write("DB ")     
+                outfile.write(" DB ")     
             outfile.write(str(dictionary[i])+",")
-            outfile.write("2")
+            outfile.write("1")
             cnt += 1
-            if(cnt == 4): 
+            totcnt+=1
+            if(cnt == 4 or totcnt == len(lines)): 
                 outfile.write("\n")
                 cnt = 0
             else:
                 outfile.write(',')
 
 # Specify the input and output filenames
-input_file = "BadAppleBass.txt"
-output_file = "BadAppleBassTable.a51"
+input_file = r'.\PianoSheets\BadApple\BadAppleBass.txt'
+output_file = r'.\PianoSheets\BadApple\BadAppleBassTable.a51'
 
 # Process the DLSL data
+convert(input_file, output_file)
+
+input_file = r'.\PianoSheets\BadApple\BadAppleMelody.txt'
+output_file = r'.\PianoSheets\BadApple\BadAppleMelodyTable.a51'
+
 convert(input_file, output_file)
