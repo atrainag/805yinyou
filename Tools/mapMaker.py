@@ -20,6 +20,8 @@ def on_press(key):
         table.append("11111111")
     if(key.char == "i"):
         table.pop()
+    else:
+        table.append("11111111")
     print("TABLE:")
     for i in table:
         print(" DB "+i+"B")
