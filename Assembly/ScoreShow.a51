@@ -1,149 +1,149 @@
- org 0000H
- acall init
- acall lable
-loop: acall check
- acall cntdsp
- ajmp loop
-init: acall delay
- mov a,#38H
- acall wrins
- mov a,#38H
- acall wrins
- mov a,#38H
- acall wrins
- mov a,#38H
- acall wrins
+            ORG         0000H       
+            ACALL       INIT        
+            ACALL       LABLE       
+LOOP:       ACALL       CHECK       
+            ACALL       CNTDSP      
+            AJMP        LOOP        
+INIT:       ACALL       DELAY       
+            MOV         A,          #38H        
+            ACALL       WRINS       
+            MOV         A,          #38H        
+            ACALL       WRINS       
+            MOV         A,          #38H        
+            ACALL       WRINS       
+            MOV         A,          #38H        
+            ACALL       WRINS       
 
 
- mov a,#08H
- acall wrins
- mov a,#01H
- acall wrins
- mov a,#06H
- acall wrins
- mov a,#0cH
- acall wrins
+            MOV         A,          #08H        
+            ACALL       WRINS       
+            MOV         A,          #01H        
+            ACALL       WRINS       
+            MOV         A,          #06H        
+            ACALL       WRINS       
+            MOV         A,          #0CH        
+            ACALL       WRINS       
 
- mov 40h,#00
- mov 41h,#00
- mov 42h,#00
- mov 43h,#00
- mov 44h,#00
- mov 45h,#00
- mov 46h,#00
- mov 47h,#00
- 
- mov 21h,p1
- ret 
+            MOV         40H,        #00         
+            MOV         41H,        #00         
+            MOV         42H,        #00         
+            MOV         43H,        #00         
+            MOV         44H,        #00         
+            MOV         45H,        #00         
+            MOV         46H,        #00         
+            MOV         47H,        #00         
 
-lable: acall l0101
- mov A,#'S'
- acall wrdata
- mov A,#'C'
- acall wrdata
- mov A,#'O'
- acall wrdata
- mov A,#'R'
- acall wrdata
- mov A,#'E'
- acall wrdata
- mov A,#':'
- acall wrdata
+            MOV         21H,        P1          
+            RET         
 
-check: mov 22h,21h
- mov 21h,p1
-chk1: jb 21H.1,OK
- jnb 22h.1,OK
- mov r0,#40h
- acall cntinc
- 
-OK: RET
+LABLE:      ACALL       L0101       
+            MOV         A,          #'S'        
+            ACALL       WRDATA      
+            MOV         A,          #'C'        
+            ACALL       WRDATA      
+            MOV         A,          #'O'        
+            ACALL       WRDATA      
+            MOV         A,          #'R'        
+            ACALL       WRDATA      
+            MOV         A,          #'E'        
+            ACALL       WRDATA      
+MOV         A,          #':'        
+            ACALL       WRDATA      
 
-cntinc: mov a,#1
- add a,@r0
- da A
- mov @r0,A
- inc r0
- mov a,#0
- addc a,@r0
- da A
- mov @r0,A
- ret
+CHECK:      MOV         22H,        21H         
+            MOV         21H,        P1          
+CHK1:       JB          21H.1,      OK          
+            JNB         22H.1,      OK          
+            MOV         R0,         #40H        
+            ACALL       CNTINC      
 
-cntdsp: acall ascii
- acall L0107
- mov r0,#33h
- acall dsp
- ret
+OK:         RET         
 
-ascii: mov r0,#40h
- mov r1,#30h
- mov r2,#08H
+CNTINC:     MOV         A,          #1          
+            ADD         A,          @R0         
+            DA          A           
+            MOV         @R0,        A           
+            INC         R0          
+            MOV         A,          #0          
+            ADDC        A,          @R0         
+            DA          A           
+            MOV         @R0,        A           
+            RET         
 
-loop1:  mov a,@r0
- push acc
- anl a,#00001111B
- add a,#30h
- mov @r1,A
- pop acc
- swap A
- anl a,#00001111B
- add a,#30h 
- inc r1
- mov @r1,A
- inc r0
- inc r1
- djnz r2,loop1
- ret
+CNTDSP:     ACALL       ASCII       
+            ACALL       L0107       
+            MOV         R0,         #33H        
+            ACALL       DSP         
+            RET         
 
-dsp: mov r1,#4
-loop1: mov a,@r0
- acall wrdata
- dec r0
- djnz r1,loop1
- ret
+ASCII:      MOV         R0,         #40H        
+            MOV         R1,         #30H        
+            MOV         R2,         #08H        
 
-delay: mov r6,#100
-dl: mov r7,#200
- djnz r7,$
- djnz r6,DL
- ret
+LOOP1:      MOV         A,          @R0         
+            PUSH        ACC         
+            ANL         A,          #00001111B  
+            ADD         A,          #30H        
+            MOV         @R1,        A           
+            POP         ACC         
+            SWAP        A           
+            ANL         A,          #00001111B  
+            ADD         A,          #30H        
+            INC         R1          
+            MOV         @R1,        A           
+            INC         R0          
+            INC         R1          
+            DJNZ        R2,         LOOP1       
+            RET         
 
-L0101: mov A,#10000000b
- acall wrins
- ret
+DSP:        MOV         R1,         #4          
+LOOP1:      MOV         A,          @R0         
+            ACALL       WRDATA      
+            DEC         R0          
+            DJNZ        R1,         LOOP1       
+            RET         
 
-L0107: mov A,#10000110b
- acall wrins
- ret 
+DELAY:      MOV         R6,         #100        
+DL:         MOV         R7,         #200        
+            DJNZ        R7,         $           
+            DJNZ        R6,         DL          
+            RET         
 
-wrins: mov p1,#00111111B
- nop
- setb p1.7
- mov p0,A 
- nop
- clr p1.7
- acall dly1
- ret
+L0101:      MOV         A,          #10000000B  
+            ACALL       WRINS       
+            RET         
 
-dly1: mov r6,#20
-dl1: mov r7,#200
- djnz r7,$
- djnz r6,dl1
- ret 
+L0107:      MOV         A,          #10000110B  
+            ACALL       WRINS       
+            RET         
 
-wrdata: mov p1,#10111111B
- nop
- setb p1.7
- mov p0,a
- nop
- clr p1.7
- acall dly2
- ret
+WRINS:      MOV         P1,         #00111111B  
+            NOP         
+            SETB        P1.7        
+            MOV         P0,         A           
+            NOP         
+            CLR         P1.7        
+            ACALL       DLY1        
+            RET         
 
-dly2: mov r6,#80
- djnz r6,$
- ret
+DLY1:       MOV         R6,         #20         
+DL1:        MOV         R7,         #200        
+            DJNZ        R7,         $           
+            DJNZ        R6,         DL1         
+            RET         
 
- end
+WRDATA:     MOV         P1,         #10111111B  
+            NOP         
+            SETB        P1.7        
+            MOV         P0,         A           
+            NOP         
+            CLR         P1.7        
+            ACALL       DLY2        
+            RET         
+
+DLY2:       MOV         R6,         #80         
+            DJNZ        R6,         $           
+            RET         
+
+            END         
 
