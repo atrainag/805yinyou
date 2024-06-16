@@ -29,8 +29,8 @@
 ; MAIN
 ;==================================================
 MAIN:       
-            MOV           R0,#0
-            MOV           R3,#0
+            MOV           R0,#0 ;Score High Byte
+            MOV           R3,#0 ;Score Low Byte
 
             MOV          R1, #10000000B 
             ACALL        SETCURSOR
@@ -71,13 +71,13 @@ CONT:
             MOV         R4,#10
             AJMP        SCOREINC
 CONTCHK:    CJNE		    A,#11111101B,CONT3
-            MOV         R4,#1
-            AJMP        SCOREINC
+;            MOV         R4,#1
+;            AJMP        SCOREINC
 CONT3:
             CLR          A
             MOVC         A, @A+DPTR
             CJNE         A, #69, CHK
-            AJMP         MAIN
+            AJMP         ENDSCR
 CHK:        CJNE         A, #255, OK
 STOP:       AJMP         STOP
 OK:         AJMP         CHK1 
@@ -92,8 +92,8 @@ DISPLAYSCR:
             MOV         A,R3
             MOV         R5,A
 
-            MOV         A,          R4 
-            MOV         B,          #100 
+            MOV         A,          R4      
+            MOV         B,          #100    
             DIV         AB     
             MOV         A,          B 
             MOV         B,          #10         
@@ -246,7 +246,7 @@ DISPLAYSCR:
 ; CHECK NOTE
 CHK1:       CJNE        A,          #1,         CHK6        
             ACALL       B6          
-CHK6:       CJNE        A,          #1,         CHK7
+CHK6:       CJNE        A,          #6,         CHK7
             ACALL       FS6
 CHK7:       CJNE        A,          #7,         CHK9        
             ACALL       F6          
@@ -336,10 +336,11 @@ MUTE:       ACALL        DELAY
             ACALL        DELAY
             DJNZ         R5, LOOP
             POP          05
-REST:       MOV          R6, #100
-            MOV          R5, #21
+REST:       MOV          R6, #103
+            MOV          R5, #20
 WAIT:       ACALL        DELAY
             DJNZ         R5, WAIT
+            RET
 
 ;==================================================
 ; ADDITIONAL FUNCTIONS
@@ -430,9 +431,23 @@ DELAY160US:
             RET         
 
 ;==================================================
+; END SCREEN 
+;==================================================
+ENDSCR:    
+            MOV          R1, #10000000B
+            ACALL        SETCURSOR
+            MOV          DPTR, #TAB7
+            ACALL        DISPLAY
+            JNB          RI,$
+            CLR          RI
+            AJMP         MAIN
+;==================================================
 ;TEXT-TABLES
 ;==================================================
 TAB2:       DB          'SCORE'
+            DB          '     '
+            DB          '     '
+            DB          ' '
             DB          10H
 
 TAB3:		
@@ -447,6 +462,11 @@ TAB4:
 			      DB		     	'    '  
 			      DB		    	10H
 
+TAB7:       DB          'YOUR '
+            DB          'FINAL'
+            DB          ' SCOR'
+            DB          'E'
+            DB          10H
 ;==================================================
 ; MUSIC
 ;==================================================

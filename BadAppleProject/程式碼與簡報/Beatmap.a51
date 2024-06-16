@@ -41,21 +41,21 @@ CONTINUESC: MOV          A,#7
 ;  JUDGE
 ;==================================================
 JUDGE:
-            push 06
-            mov r6,a
-            mov a,r0
-            cjne a,#11111111B,contjudg1
-            ajmp contjudg2
-contjudg1:  cpl a
-            anl a,r6
-            jz pscore
-contjudg2:  mov a,r3
-            cjne a,#11111111B,contjudg3
-            ajmp miss
-contjudg3:  cpl a
-            anl a,r6
-            jz pscore
-            ajmp miss
+            PUSH 06
+            MOV R6,A
+            MOV A,R0
+            CJNE A,#11111111B,CONTJUDG1
+            AJMP CONTJUDG2
+CONTJUDG1:  CPL A
+            ANL A,R6
+            JZ PSCORE
+CONTJUDG2:  MOV A,R3
+            CJNE A,#11111111B,CONTJUDG3
+            AJMP MISS
+CONTJUDG3:  CPL A
+            ANL A,R6
+            JZ PSCORE
+            AJMP MISS
 
 PSCORE:     
             MOV         A, #11111110B
@@ -69,16 +69,6 @@ MISS:
             CLR         TI
             POP         06
             AJMP        CONTINUESC
-
-delay:  push 06
- push 07
-   mov r6,#250
-dl3:  mov r7,#200
-   djnz r7,$
-   djnz r6,dl3
-   pop 07
-   pop 06
-   ret
 
 
 ;==================================================
@@ -112,6 +102,18 @@ INSERTL7:   MOV          R0, A
             AJMP         RETURNSC
 INSERTL8:   MOV          R3, A
             AJMP         RETURNSC
+
+;==================================================
+; END SCREEN 
+;==================================================
+ENDSCR:    
+            JNB          RI,$
+            CLR          RI
+            MOV          A,#39
+            MOV          SBUF,A
+            CLR          TI
+            JNB          TI,$
+            AJMP         MAIN
 
 ;==================================================
 ; BEATMAP

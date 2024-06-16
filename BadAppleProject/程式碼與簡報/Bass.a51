@@ -29,8 +29,8 @@
 ;STARTUP
 ;==================================================
 BEGIN:      MOV          DPTR, #STARTUP;LOAD-TEXT
-            MOV          R5, #56; 7-TEXT
-            ACALL        CGRAM ;
+            MOV          R5, #56 ; 7-TEXT
+            ACALL        CGRAM 
             MOV          R0, #16
             MOV          R1, #10001111B
 TEXT1:      
@@ -96,12 +96,18 @@ START:
             MOV          SBUF, #39
             CLR          TI
             JNB          TI, $
+
+STARTDLY:   
+ 			MOV          R7,#15
+STARTDL:	MOV          R6,#255
+            DJNZ         R6,$ 
+		    DJNZ         R7,STARTDL
 CONT:       
 CONT3:      
             CLR          A
             MOVC         A, @A+DPTR
             CJNE         A, #40, CHK
-            AJMP         BEGIN
+            AJMP         ENDSCR
 CHK:        CJNE         A, #255, OK
 STOP:       AJMP         STOP
 OK:         MOV          R4, #1
@@ -234,7 +240,7 @@ MUTE:       ACALL        DELAY
             DJNZ         R5, LOOP
             POP          05
             DJNZ         R4, OUTPUT
-REST:       MOV          R6, #170
+REST:       MOV          R6, #171
             MOV          R5, #20
 WAIT:       ACALL        CHKDELAY
             DJNZ         R5, WAIT
@@ -267,6 +273,29 @@ SWITCH2:    ACALL        SETCURSOR
             ACALL        IDELAY
             DJNZ         R0, SWITCH2
             RET         
+
+;==================================================
+; END SCREEN 
+;==================================================
+ENDSCR:    
+            MOV          R1, #10000000B
+            ACALL        SETCURSOR
+            MOV          DPTR, #TAB7
+            ACALL        DISPLAY
+            MOV          R1, #11000000B
+            ACALL        SETCURSOR
+            MOV          DPTR, #TAB8
+            ACALL        DISPLAY
+WAITKEY:    JNB          P1.0,RETRY
+            JNB          P1.1,RETRY
+            JNB          P1.2,RETRY
+            JNB          P1.3,RETRY
+            AJMP WAITKEY
+RETRY:      MOV          A,#59
+            MOV          SBUF,A
+            CLR          TI
+            JNB          TI,$
+            AJMP         BEGIN
 
 ;==================================================
 ; TRANSFER KEY
@@ -562,6 +591,16 @@ TAB6:       DB          'Bad A'
             DB          'pple'
             DB          05H
             DB          06H
+            DB          10H
+
+TAB7:       DB          'PRESS'
+            DB          ' ANY '
+            DB          'KEY T'
+            DB          'O'
+            DB          10H
+
+TAB8:       DB          ' CONT'
+            DB          'INUE'
             DB          10H
 
 ;==================================================
