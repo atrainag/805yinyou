@@ -28,7 +28,7 @@ This project is finished in 16 June 2024. Right now it's able to sing the song (
 
 To play, you will need 3 8051 microcontroller, and 2 jumper cable. Lets assume the microconttrollers are named as A,B, and C. So you take the Bass.a51 hex file burn it into A, Beatmap.a51 hex file burn it into B and MelodyScoreKey.a51 hex file into C. And then put the Jumper cable from A's P3.1(TX) to B's P3.0 (RX) and  put the second Jumper cable from B's P3.1(TX) to P3.0(RX). And you are good to go! Press the any key on the 4x4 Key at Microcontroller A, and the game will start! Have Fun!
 
-To play, you will need 3 8051 microcontroller, and 2 jumper cable. Lets assume the microconttrollers are named as A,B, and C. So you take the Bass.a51 hex file burn it into A, Beatmap.a51 hex file burn it into B and MelodyScoreKey.a51 hex file into C. And then put the Jumper cable from A's P3.1(TX) to B's P3.0 (RX) and  put the second Jumper cable from B's P3.1(TX) to P3.0(RX). And you are good to go! Press the any key on the 4x4 Key at Microcontroller A, and the game will start! Have Fun!
+要遊玩這個遊戲，你需要 3 個 8051 微控制器和 2 條跳線。我們假設微控制器命名為甲、乙和丙。首先，將 Bass.a51 的 hex 文件燒錄到甲，將 Beatmap.a51 的 hex 文件燒錄到乙，並將 MelodyScoreKey.a51 的 hex 文件燒錄到丙。接下來，用跳線將甲的 P3.1 (TX) 連接到乙的 P3.0 (RX)，再用另一條跳線將乙的 P3.1 (TX) 連接到丙的 P3.0 (RX)。一切就緒後，按下微控制器甲上 4x4 鍵盤的任意鍵，遊戲將開始！祝你玩得開心！
 
 Video Demonstration (影片示範): https://youtu.be/faz8mmd0WDA?feature=shared
 
