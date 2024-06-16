@@ -29,8 +29,8 @@
 ;STARTUP
 ;==================================================
 BEGIN:      MOV          DPTR, #STARTUP;LOAD-TEXT
-            MOV          R5, #56; 7-TEXT
-            ACALL        CGRAM ;
+            MOV          R5, #56 ; 7-TEXT
+            ACALL        CGRAM 
             MOV          R0, #16
             MOV          R1, #10001111B
 TEXT1:      

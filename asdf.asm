@@ -1,9 +1,0 @@
-asdf:
-		DB 0FFH
-		DB 0FFH
-		DB 087H
-		DB 087H
-		DB 007H
-		DB 03FH
-		DB 001H
-		DB 001H

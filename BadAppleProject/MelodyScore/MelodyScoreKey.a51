@@ -29,8 +29,8 @@
 ; MAIN
 ;==================================================
 MAIN:       
-            MOV           R0,#0
-            MOV           R3,#0
+            MOV           R0,#0 ;Score High Byte
+            MOV           R3,#0 ;Score Low Byte
 
             MOV          R1, #10000000B 
             ACALL        SETCURSOR
@@ -92,8 +92,8 @@ DISPLAYSCR:
             MOV         A,R3
             MOV         R5,A
 
-            MOV         A,          R4 
-            MOV         B,          #100 
+            MOV         A,          R4      
+            MOV         B,          #100    
             DIV         AB     
             MOV         A,          B 
             MOV         B,          #10         
