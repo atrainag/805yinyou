@@ -1,0 +1,739 @@
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\MelodyScoreKey.obj
+ASSEMBLER INVOKED BY: D:\Jericho\School\Microprocessor\Keil\C51\BIN\A51.EXE MelodyScoreKey.a51 SET(SMALL) DEBUG PRINT(.\
+                      Listings\MelodyScoreKey.lst) OBJECT(.\Objects\MelodyScoreKey.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;==================================================
+                       2     ; INITIALIZATION
+                       3     ;==================================================
+0000                   4                 ORG          0000H
+0000 758920            5                 MOV                      TMOD,#00100000B
+0003 758DE8            6                 MOV                      TH1,#232
+0006 758BE8            7                 MOV                      TL1,#232
+0009 D28E              8                 SETB                     TR1
+000B 759870            9                 MOV                      SCON,#01110000B
+000E 5129             10                 ACALL        DELAY
+0010 7438             11                 MOV          A, #38H
+0012 5159             12                 ACALL        WRINS
+0014 7438             13                 MOV          A, #38H
+0016 5159             14                 ACALL        WRINS
+0018 7438             15                 MOV          A, #38H
+001A 5159             16                 ACALL        WRINS
+001C 7438             17                 MOV          A, #38H
+001E 5159             18                 ACALL        WRINS
+0020 7408             19                 MOV          A, #08H
+0022 5159             20                 ACALL        WRINS
+0024 7401             21                 MOV          A, #01H
+0026 5159             22                 ACALL        WRINS
+0028 7406             23                 MOV          A, #06H
+002A 5159             24                 ACALL        WRINS
+002C 740C             25                 MOV          A, #0CH
+002E 5159             26                 ACALL        WRINS
+                      27     
+                      28     ;==================================================
+                      29     ; MAIN
+                      30     ;==================================================
+0030                  31     MAIN:       
+0030 7800             32                 MOV           R0,#0
+0032 7B00             33                 MOV           R3,#0
+                      34     
+0034 7980             35                 MOV          R1, #10000000B 
+0036 5155             36                 ACALL        SETCURSOR
+0038 9002C6           37                 MOV          DPTR, #TAB3
+003B 5144             38                 ACALL        DISPLAY
+003D 5175             39                 ACALL        IDELAY
+003F 7980             40                 MOV          R1, #10000000B 
+0041 5155             41                 ACALL        SETCURSOR
+0043 9002D5           42                 MOV          DPTR, #TAB4
+0046 5144             43                 ACALL        DISPLAY
+0048 79C0             44                 MOV          R1, #11000000B 
+004A 5155             45                 ACALL        SETCURSOR
+004C 9002D5           46                 MOV          DPTR, #TAB4
+004F 5144             47                 ACALL        DISPLAY
+0051 5175             48                 ACALL        IDELAY
+                      49     
+0053 9002F5           50                 MOV          DPTR, #MUSIC
+0056 C298             51                 CLR          RI 
+0058 E599             52                 MOV          A,SBUF
+005A B427D3           53                 CJNE         A,#39,MAIN
+005D C298             54                 CLR         RI
+005F                  55     CONT:       
+005F C082             56                 PUSH         DPL
+0061 C083             57                 PUSH         DPH
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     2
+
+0063 7980             58                 MOV          R1, #10000000B 
+0065 5155             59                 ACALL        SETCURSOR
+0067 9002B5           60                 MOV          DPTR, #TAB2
+006A 5144             61                 ACALL        DISPLAY
+006C 79C0             62                 MOV                      R1,#11000000B
+006E 5155             63                 ACALL        SETCURSOR
+0070 1195             64                 ACALL        DISPLAYSCR
+0072 D083             65                 POP          DPH
+0074 D082             66                 POP          DPL
+0076 30980E           67                 JNB                     RI,CONT3
+0079 C298             68                 CLR         RI
+007B E599             69                 MOV                     A,SBUF
+007D B4FE04           70                 CJNE                    A,#11111110B,CONTCHK
+0080 7C0A             71                 MOV         R4,#10
+0082 4134             72                 AJMP        SCOREINC
+0084 B4FD00           73     CONTCHK:    CJNE                    A,#11111101B,CONT3
+                      74     ;            MOV         R4,#1
+                      75     ;            AJMP        SCOREINC
+0087                  76     CONT3:
+0087 E4               77                 CLR          A
+0088 93               78                 MOVC         A, @A+DPTR
+0089 B44502           79                 CJNE         A, #69, CHK
+008C 41A5             80                 AJMP         ENDSCR
+008E B4FF02           81     CHK:        CJNE         A, #255, OK
+0091 0191             82     STOP:       AJMP         STOP
+0093 216A             83     OK:         AJMP         CHK1 
+                      84     
+                      85     ;==================================================
+                      86     ; DISPLAY SCORE
+                      87     ;==================================================
+0095                  88     DISPLAYSCR:   
+                      89     
+0095 E8               90                 MOV         A,R0
+0096 FC               91                 MOV         R4,A
+0097 EB               92                 MOV         A,R3
+0098 FD               93                 MOV         R5,A
+                      94     
+0099 EC               95                 MOV         A,          R4 
+009A 75F064           96                 MOV         B,          #100 
+009D 84               97                 DIV         AB     
+009E E5F0             98                 MOV         A,          B 
+00A0 75F00A           99                 MOV         B,          #10         
+00A3 84              100                 DIV         AB          
+00A4 FA              101                 MOV         R2,         A
+00A5 ABF0            102                 MOV         R3,         B
+                     103     
+00A7 EA              104                 MOV         A,          R2          
+00A8 75F002          105                 MOV         B,          #2          
+00AB A4              106                 MUL         AB          
+00AC 75F00A          107                 MOV         B,          #10         
+00AF 84              108                 DIV         AB          
+00B0 A8F0            109                 MOV         R0,         B
+                     110     
+00B2 EB              111                 MOV         A,          R3          
+00B3 75F002          112                 MOV         B,          #2          
+00B6 A4              113                 MUL         AB          
+00B7 75F00A          114                 MOV         B,          #10         
+00BA 84              115                 DIV         AB          
+00BB A9F0            116                 MOV         R1,         B
+00BD 28              117                 ADD         A,          R0
+00BE F8              118                 MOV         R0,         A;          
+                     119     
+00BF EA              120                 MOV         A,          R2          
+00C0 75F005          121                 MOV         B,          #5          
+00C3 A4              122                 MUL         AB          
+00C4 75F00A          123                 MOV         B,          #10         
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     3
+
+00C7 84              124                 DIV         AB          
+00C8 AEF0            125                 MOV         R6,         B
+00CA 28              126                 ADD         A,          R0
+00CB F8              127                 MOV         R0,         A;          
+                     128     
+00CC E9              129                 MOV         A,          R1          
+00CD 2E              130                 ADD         A,          R6          
+00CE 75F00A          131                 MOV         B,          #10
+00D1 84              132                 DIV         AB          
+00D2 A9F0            133                 MOV         R1,         B
+00D4 28              134                 ADD         A,          R0          
+00D5 F8              135                 MOV         R0,         A
+                     136     
+00D6 EB              137                 MOV         A,          R3          
+00D7 75F005          138                 MOV         B,          #5          
+00DA A4              139                 MUL         AB          
+00DB 75F00A          140                 MOV         B,          #10         
+00DE 84              141                 DIV         AB          
+00DF AEF0            142                 MOV         R6,         B
+00E1 29              143                 ADD         A,          R1
+00E2 F9              144                 MOV         R1,         A           
+                     145     
+00E3 EA              146                 MOV         A,          R2          
+00E4 75F006          147                 MOV         B,          #6          
+00E7 A4              148                 MUL         AB          
+00E8 75F00A          149                 MOV         B,          #10         
+00EB 84              150                 DIV         AB          
+00EC AFF0            151                 MOV         R7,         B
+00EE 29              152                 ADD         A,          R1
+00EF F9              153                 MOV         R1,         A           
+                     154     
+00F0 EE              155                 MOV         A,          R6          
+00F1 2F              156                 ADD         A,          R7          
+00F2 75F00A          157                 MOV         B,          #10
+00F5 84              158                 DIV         AB          
+00F6 AEF0            159                 MOV         R6,         B
+00F8 29              160                 ADD         A,          R1          
+00F9 F9              161                 MOV         R1,         A
+                     162     
+00FA EB              163                 MOV         A,          R3          
+00FB 75F006          164                 MOV         B,          #6          
+00FE A4              165                 MUL         AB          
+00FF 75F00A          166                 MOV         B,          #10         
+0102 84              167                 DIV         AB          
+0103 AFF0            168                 MOV         R7,         B
+0105 2E              169                 ADD         A,          R6
+0106 FE              170                 MOV         R6,         A           
+                     171     
+                     172     
+0107 ED              173                 MOV         A,          R5
+0108 75F064          174                 MOV         B,          #100        
+010B 84              175                 DIV         AB          
+010C C0F0            176                 PUSH        B           
+010E 29              177                 ADD         A,          R1
+010F 75F00A          178                 MOV         B,          #10         
+0112 84              179                 DIV         AB
+0113 A9F0            180                 MOV         R1,         B
+                     181     
+0115 28              182                 ADD         A,          R0
+0116 75F00A          183                 MOV         B,          #10         
+0119 84              184                 DIV         AB          
+011A A8F0            185                 MOV         R0,         B           
+011C D0F0            186                 POP         B           
+                     187     
+011E E5F0            188                 MOV         A,          B 
+0120 75F00A          189                 MOV         B,          #10         
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     4
+
+0123 84              190                 DIV         AB          
+0124 C0F0            191                 PUSH        B           
+0126 2E              192                 ADD         A,          R6          
+0127 75F00A          193                 MOV         B,          #10         
+012A 84              194                 DIV         AB
+012B AEF0            195                 MOV         R6,         B
+                     196     
+012D 29              197                 ADD         A,          R1
+012E 75F00A          198                 MOV         B,          #10         
+0131 84              199                 DIV         AB          
+0132 A9F0            200                 MOV         R1,         B           
+0134 28              201                 ADD         A,          R0          
+0135 F8              202                 MOV         R0,         A           
+0136 D0F0            203                 POP         B           
+                     204     
+0138 E5F0            205                 MOV         A,          B           
+013A 2F              206                 ADD         A,          R7          
+013B 75F00A          207                 MOV         B,          #10         
+013E 84              208                 DIV         AB
+013F AFF0            209                 MOV         R7,         B
+                     210     
+0141 2E              211                 ADD         A,          R6
+0142 75F00A          212                 MOV         B,          #10         
+0145 84              213                 DIV         AB          
+0146 AEF0            214                 MOV         R6,         B           
+0148 29              215                 ADD         A,          R1
+0149 75F00A          216                 MOV         B,          #10         
+014C 84              217                 DIV         AB          
+014D A9F0            218                 MOV         R1,         B           
+014F 28              219                 ADD         A,          R0          
+0150 F8              220                 MOV         R0,         A           
+                     221     
+0151 E8              222                 MOV         A,          R0         
+0152 2430            223                 ADD         A,          #30H 
+0154 5167            224                 ACALL       WRDATA 
+                     225     
+0156 E9              226                 MOV         A,          R1          
+0157 2430            227                 ADD         A,          #30H
+0159 5167            228                 ACALL       WRDATA      
+                     229     
+015B EE              230                 MOV         A,          R6          
+015C 2430            231                 ADD         A,          #30H        
+015E 5167            232                 ACALL       WRDATA      
+                     233     
+0160 EF              234                 MOV         A,          R7          
+0161 2430            235                 ADD         A,          #30H        
+0163 5167            236                 ACALL       WRDATA     
+                     237     
+0165 EC              238                 MOV         A,R4
+0166 F8              239                 MOV         R0,A
+0167 ED              240                 MOV         A,R5
+0168 FB              241                 MOV         R3,A
+                     242                 
+0169 22              243                 RET         
+                     244     
+                     245     ;==================================================
+                     246     ; CHECK NOTE
+016A B40102          247     CHK1:       CJNE        A,          #1,         CHK6        
+016D 31B3            248                 ACALL       B6          
+016F B40602          249     CHK6:       CJNE        A,          #6,         CHK7
+0172 31B9            250                 ACALL       FS6
+0174 B40702          251     CHK7:       CJNE        A,          #7,         CHK9        
+0177 31BF            252                 ACALL       F6          
+0179 B40902          253     CHK9:       CJNE        A, #9,CHK11
+017C 31C5            254                 ACALL       DS6
+017E B40B02          255     CHK11:      CJNE        A,          #11,        CHK14       
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     5
+
+0181 31CB            256                 ACALL       CS6         
+0183 B40E02          257     CHK14:      CJNE        A,          #14,        CHK16
+0186 31D1            258                 ACALL       AS5         
+0188 B41002          259     CHK16:      CJNE        A,          #16,        CHK18       
+018B 31D7            260                 ACALL       GS5         
+018D B41202          261     CHK18:      CJNE        A,          #18,        CHK19       
+0190 31DD            262                 ACALL       FS5         
+0192 B41302          263     CHK19:      CJNE        A,          #19,        CHK21       
+0195 31E3            264                 ACALL       F5          
+0197 B41502          265     CHK21:      CJNE        A,          #21,        CHK22       
+019A 31E9            266                 ACALL       DS5         
+019C B41602          267     CHK22:      CJNE        A,          #22,        CHK23       
+019F 31EF            268                 ACALL       D5          
+01A1 B41702          269     CHK23:      CJNE        A,          #23,        CHK33       
+01A4 31F5            270                 ACALL       CS5         
+01A6 B42102          271     CHK33:      CJNE        A,          #33,        CHK0
+01A9 31FB            272                 ACALL       DS4         
+01AB B40002          273     CHK0:       CJNE        A,          #00,        CONT2       
+01AE 5107            274                 ACALL       NON         
+01B0 A3              275     CONT2:      INC          DPTR
+01B1 015F            276                 AJMP         CONT
+                     277     
+                     278     ;==================================================
+                     279     ; NOTE FREQUENCIES
+                     280     ;==================================================
+01B3 7E10            281     B6:         MOV         R6,         #16         
+01B5 7DF7            282                 MOV         R5,         #247        
+01B7 410D            283                 AJMP        OUTPUT      
+01B9 7E16            284     FS6:        MOV          R6, #22
+01BB 7DB9            285                 MOV          R5, #185
+01BD 410D            286                 AJMP         OUTPUT
+01BF 7E17            287     F6:         MOV          R6, #23
+01C1 7DAF            288                 MOV          R5, #175
+01C3 410D            289                 AJMP         OUTPUT
+01C5 7E1A            290     DS6:        MOV         R6,         #26         
+01C7 7D9C            291                 MOV         R5,         #156        
+01C9 410D            292                 AJMP        OUTPUT      
+01CB 7E1D            293     CS6:        MOV         R6,         #29         
+01CD 7D8B            294                 MOV         R5,         #139        
+01CF 410D            295                 AJMP        OUTPUT      
+01D1 7E23            296     AS5:        MOV         R6,         #35         
+01D3 7D74            297                 MOV         R5,         #116        
+01D5 410D            298                 AJMP        OUTPUT      
+01D7 7E28            299     GS5:        MOV         R6,         #40         
+01D9 7D68            300                 MOV         R5,         #104        
+01DB 410D            301                 AJMP        OUTPUT      
+01DD 7E2C            302     FS5:        MOV         R6,         #44         
+01DF 7D5C            303                 MOV         R5,         #92         
+01E1 410D            304                 AJMP        OUTPUT      
+01E3 7E2F            305     F5:         MOV         R6,         #47         
+01E5 7D57            306                 MOV         R5,         #87         
+01E7 410D            307                 AJMP        OUTPUT      
+01E9 7E35            308     DS5:        MOV         R6,         #53         
+01EB 7D4E            309                 MOV         R5,         #78         
+01ED 410D            310                 AJMP        OUTPUT      
+01EF 7E38            311     D5:         MOV         R6,         #56         
+01F1 7D49            312                 MOV         R5,         #73         
+01F3 410D            313                 AJMP        OUTPUT      
+01F5 7E3C            314     CS5:        MOV         R6,         #60         
+01F7 7D45            315                 MOV         R5,         #69         
+01F9 410D            316                 AJMP        OUTPUT      
+01FB 7E6B            317     DS4:        MOV         R6,         #107        
+01FD 7D27            318                 MOV         R5,         #39         
+01FF 410D            319                 AJMP        OUTPUT      
+0201 7EA0            320     GS3:        MOV         R6,         #160        
+0203 7D1A            321                 MOV         R5,         #26         
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     6
+
+0205 410D            322                 AJMP        OUTPUT      
+0207 7E21            323     NON:        MOV         R6,         #33         
+0209 7D7C            324                 MOV         R5,         #124        
+020B 410D            325                 AJMP        OUTPUT      
+                     326     
+                     327     ;==================================================
+                     328     ; SING
+                     329     ;==================================================
+020D C005            330     OUTPUT:     PUSH         05
+020F B40002          331     LOOP:       CJNE         A, #00, SOUND
+0212 4116            332                 AJMP         MUTE
+0214 C2A6            333     SOUND:      CLR          P2.6
+0216 5129            334     MUTE:       ACALL        DELAY
+0218 D2A6            335                 SETB         P2.6
+021A 5129            336                 ACALL        DELAY
+021C DDF1            337                 DJNZ         R5, LOOP
+021E D005            338                 POP          05
+0220 7E67            339     REST:       MOV          R6, #103 ;104
+0222 7D14            340                 MOV          R5, #20
+0224 5129            341     WAIT:       ACALL        DELAY
+0226 DDFC            342                 DJNZ         R5, WAIT
+0228 22              343                 RET
+                     344     
+                     345     ;==================================================
+                     346     ; ADDITIONAL FUNCTIONS
+                     347     ;==================================================
+0229 8EF0            348     DELAY:      MOV          B, R6
+022B 7F06            349     DL:         MOV          R7, #6
+022D DFFE            350                 DJNZ         R7, $
+022F DEFA            351                 DJNZ         R6, DL
+0231 AEF0            352                 MOV          R6, B
+0233 22              353                 RET         
+                     354     
+0234                 355     SCOREINC:       
+0234 0B              356                 INC         R3          
+0235 BB0008          357                 CJNE        R3,         #0,         OUT        
+0238 7B00            358                 MOV         R3,         #0          
+023A 08              359                 INC         R0          
+023B B82802          360                 CJNE        R0,         #40,        OUT        
+023E 7800            361                 MOV         R0,         #0          
+0240 DCF2            362     OUT:        DJNZ        R4,SCOREINC
+0242 0187            363                 AJMP        CONT3
+                     364     
+0244 C007            365     DISPLAY:    PUSH         07
+0246 7F00            366                 MOV          R7, #00H
+0248 EF              367     NEXT:       MOV          A, R7
+0249 93              368                 MOVC         A, @A+DPTR
+024A B41003          369                 CJNE         A, #10H, DSP
+024D D007            370                 POP          07
+024F 22              371                 RET         
+                     372     
+0250 5167            373     DSP:        ACALL        WRDATA
+0252 0F              374                 INC          R7
+0253 4148            375                 AJMP         NEXT
+                     376     
+0255                 377     SETCURSOR:  
+0255 E9              378                 MOV          A, R1
+0256 5159            379                 ACALL        WRINS
+0258 22              380                 RET         
+                     381     
+0259                 382     WRINS:      
+0259 75903F          383                 MOV          P1, #00111111B
+025C 00              384                 NOP         
+025D D297            385                 SETB         P1.7
+025F F580            386                 MOV          P0, A
+0261 00              387                 NOP         
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     7
+
+0262 C297            388                 CLR          P1.7
+0264 518B            389                 ACALL        DELAY8MS
+0266 22              390                 RET         
+0267                 391     WRDATA:     
+0267 75907F          392                 MOV          P1, #01111111B
+026A 00              393                 NOP         
+026B D297            394                 SETB         P1.7
+026D F580            395                 MOV          P0, A
+026F 00              396                 NOP         
+0270 C297            397                 CLR          P1.7
+0272 519C            398                 ACALL        DELAY160US
+0274 22              399                 RET         
+                     400     
+0275 7EFF            401     IDELAY:     MOV          R6, #255
+0277 7FC8            402     IDL:        MOV          R7, #200
+0279 DFFE            403                 DJNZ         R7, $
+027B DEFA            404                 DJNZ         R6, IDL
+027D 22              405                 RET         
+                     406     
+027E                 407     DELAY40MS:  
+027E C007            408                 PUSH         07
+0280 7E64            409                 MOV          R6, #100
+0282 7FC8            410     DL40:       MOV          R7, #200
+0284 DFFE            411                 DJNZ         R7, $
+0286 DEFA            412                 DJNZ         R6, DL40
+0288 D007            413                 POP          07
+028A 22              414                 RET         
+028B                 415     DELAY8MS:   
+028B C007            416                 PUSH         07
+028D C006            417                 PUSH         06
+028F 7E14            418                 MOV          R6, #20
+0291 7FC8            419     DL8:        MOV          R7, #200
+0293 DFFE            420                 DJNZ         R7, $
+0295 DEFA            421                 DJNZ         R6, DL8
+0297 D006            422                 POP          06
+0299 D007            423                 POP          07
+029B 22              424                 RET         
+                     425     
+029C                 426     DELAY160US: 
+029C C006            427                 PUSH         06
+029E 7E50            428                 MOV          R6, #80
+02A0 DEFE            429                 DJNZ         R6, $
+02A2 D006            430                 POP          06
+02A4 22              431                 RET         
+                     432     
+                     433     ;==================================================
+                     434     ; END SCREEN 
+                     435     ;==================================================
+02A5                 436     ENDSCR:    
+02A5 7980            437                 MOV          R1, #10000000B
+02A7 5155            438                 ACALL        SETCURSOR
+02A9 9002E4          439                 MOV          DPTR, #TAB7
+02AC 5144            440                 ACALL        DISPLAY
+02AE 3098FD          441                 JNB          RI,$
+02B1 C298            442                 CLR          RI
+02B3 0130            443                 AJMP         MAIN
+                     444     ;==================================================
+                     445     ;TEXT-TABLES
+                     446     ;==================================================
+02B5 53434F52        447     TAB2:       DB          'SCORE'
+02B9 45                      
+02BA 20202020        448                 DB          '     '
+02BE 20                      
+02BF 20202020        449                 DB          '     '
+02C3 20                      
+02C4 20              450                 DB          ' '
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     8
+
+02C5 10              451                 DB          10H
+                     452     
+02C6                 453     TAB3:           
+02C6 57616974        454                 DB                  'Waiti'                         
+02CA 69                      
+02CB 6E672053        455                 DB                  'ng Si'
+02CF 69                      
+02D0 676E616C        456                                   DB                        'gnal'  
+02D4 10              457                             DB                      10H
+                     458     
+02D5                 459     TAB4:                   
+02D5 20202020        460                 DB                  '     '                         
+02D9 20                      
+02DA 20202020        461                 DB                  '     '
+02DE 20                      
+02DF 20202020        462                                   DB                        '    '  
+02E3 10              463                                   DB                        10H
+                     464     
+02E4 594F5552        465     TAB7:       DB          'YOUR '
+02E8 20                      
+02E9 46494E41        466                 DB          'FINAL'
+02ED 4C                      
+02EE 2053434F        467                 DB          ' SCOR'
+02F2 52                      
+02F3 45              468                 DB          'E'
+02F4 10              469                 DB          10H
+                     470     ;==================================================
+                     471     ; MUSIC
+                     472     ;==================================================
+02F5                 473     MUSIC:      
+02F5 00000000        474                 DB 0,0,0,0
+02F9 21002115        475                 DB 33,0,33,21
+02FD 00151715        476                 DB 0,21,23,21
+0301 21002115        477                 DB 33,0,33,21
+0305 00151715        478                 DB 0,21,23,21
+0309 21002115        479                 DB 33,0,33,21
+030D 00151715        480                 DB 0,21,23,21
+0311 12001512        481                 DB 18,0,21,18
+0315 10001210        482                 DB 16,0,18,16
+0319 21002115        483                 DB 33,0,33,21
+031D 00151715        484                 DB 0,21,23,21
+0321 21002115        485                 DB 33,0,33,21
+0325 00151715        486                 DB 0,21,23,21
+0329 21002115        487                 DB 33,0,33,21
+032D 00151715        488                 DB 0,21,23,21
+0331 10001210        489                 DB 16,0,18,16
+0335 12001512        490                 DB 18,0,21,18
+0339 21002115        491                 DB 33,0,33,21
+033D 00151715        492                 DB 0,21,23,21
+0341 21002115        493                 DB 33,0,33,21
+0345 00151715        494                 DB 0,21,23,21
+0349 21002115        495                 DB 33,0,33,21
+034D 00151715        496                 DB 0,21,23,21
+0351 12001512        497                 DB 18,0,21,18
+0355 10001210        498                 DB 16,0,18,16
+0359 21002115        499                 DB 33,0,33,21
+035D 00151715        500                 DB 0,21,23,21
+0361 21002115        501                 DB 33,0,33,21
+0365 00151715        502                 DB 0,21,23,21
+0369 21002115        503                 DB 33,0,33,21
+036D 00151715        504                 DB 0,21,23,21
+0371 10000000        505                 DB 16,0,0,0
+0375 12000000        506                 DB 18,0,0,0
+0379 15131210        507                 DB 21,19,18,16
+037D 0E00090B        508                 DB 14,0,9,11
+0381 0E001500        509                 DB 14,0,21,0
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE     9
+
+0385 0E101213        510                 DB 14,16,18,19
+0389 15131210        511                 DB 21,19,18,16
+038D 0E001012        512                 DB 14,0,16,18
+0391 13151312        513                 DB 19,21,19,18
+0395 13151613        514                 DB 19,21,22,19
+0399 15131210        515                 DB 21,19,18,16
+039D 0E00090B        516                 DB 14,0,9,11
+03A1 0E001500        517                 DB 14,0,21,0
+03A5 0E101213        518                 DB 14,16,18,19
+03A9 15131210        519                 DB 21,19,18,16
+03AD 0E001012        520                 DB 14,0,16,18
+03B1 13001200        521                 DB 19,0,18,0
+03B5 10000E00        522                 DB 16,0,14,0
+03B9 15131210        523                 DB 21,19,18,16
+03BD 0E00090B        524                 DB 14,0,9,11
+03C1 0E001500        525                 DB 14,0,21,0
+03C5 0E101213        526                 DB 14,16,18,19
+03C9 15131210        527                 DB 21,19,18,16
+03CD 0E001012        528                 DB 14,0,16,18
+03D1 13151312        529                 DB 19,21,19,18
+03D5 13151613        530                 DB 19,21,22,19
+03D9 15131210        531                 DB 21,19,18,16
+03DD 0E00090B        532                 DB 14,0,9,11
+03E1 0E001500        533                 DB 14,0,21,0
+03E5 0E101213        534                 DB 14,16,18,19
+03E9 15131210        535                 DB 21,19,18,16
+03ED 0E001012        536                 DB 14,0,16,18
+03F1 13001200        537                 DB 19,0,18,0
+03F5 10000E00        538                 DB 16,0,14,0
+03F9 0B090E10        539                 DB 11,9,14,16
+03FD 0E00100E        540                 DB 14,0,16,14
+0401 0B090E10        541                 DB 11,9,14,16
+0405 0E00100E        542                 DB 14,0,16,14
+0409 10121317        543                 DB 16,18,19,23
+040D 15001715        544                 DB 21,0,23,21
+0411 1312100E        545                 DB 19,18,16,14
+0415 15000E0B        546                 DB 21,0,14,11
+0419 0B090E10        547                 DB 11,9,14,16
+041D 0E00100E        548                 DB 14,0,16,14
+0421 0B090E10        549                 DB 11,9,14,16
+0425 0E00100E        550                 DB 14,0,16,14
+0429 10121317        551                 DB 16,18,19,23
+042D 15001715        552                 DB 21,0,23,21
+0431 1312100E        553                 DB 19,18,16,14
+0435 15000E0B        554                 DB 21,0,14,11
+0439 0B090E10        555                 DB 11,9,14,16
+043D 0E00100E        556                 DB 14,0,16,14
+0441 0B090E10        557                 DB 11,9,14,16
+0445 0E00100E        558                 DB 14,0,16,14
+0449 10121317        559                 DB 16,18,19,23
+044D 15001715        560                 DB 21,0,23,21
+0451 1312100E        561                 DB 19,18,16,14
+0455 15000E0B        562                 DB 21,0,14,11
+0459 0B090E10        563                 DB 11,9,14,16
+045D 0E00100E        564                 DB 14,0,16,14
+0461 0B090E10        565                 DB 11,9,14,16
+0465 0E000907        566                 DB 14,0,9,7
+0469 0607090B        567                 DB 6,7,9,11
+046D 0E00100E        568                 DB 14,0,16,14
+0471 10121317        569                 DB 16,18,19,23
+0475 15000000        570                 DB 21,0,0,0
+0479 0B000000        571                 DB 11,0,0,0
+047D 00000000        572                 DB 0,0,0,0
+0481 0B000000        573                 DB 11,0,0,0
+0485 00000000        574                 DB 0,0,0,0
+0489 10000017        575                 DB 16,0,0,23
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE    10
+
+048D 15001715        576                 DB 21,0,23,21
+0491 13000000        577                 DB 19,0,0,0
+0495 15000000        578                 DB 21,0,0,0
+0499 0B000000        579                 DB 11,0,0,0
+049D 00000000        580                 DB 0,0,0,0
+04A1 0B000000        581                 DB 11,0,0,0
+04A5 00000000        582                 DB 0,0,0,0
+04A9 10000017        583                 DB 16,0,0,23
+04AD 15001715        584                 DB 21,0,23,21
+04B1 00000000        585                 DB 0,0,0,0
+04B5 15000000        586                 DB 21,0,0,0
+04B9 0B090E10        587                 DB 11,9,14,16
+04BD 0E001000        588                 DB 14,0,16,0
+04C1 0B090E10        589                 DB 11,9,14,16
+04C5 0E001000        590                 DB 14,0,16,0
+04C9 10121317        591                 DB 16,18,19,23
+04CD 15001700        592                 DB 21,0,23,0
+04D1 1312100E        593                 DB 19,18,16,14
+04D5 15000E00        594                 DB 21,0,14,0
+04D9 0B090E10        595                 DB 11,9,14,16
+04DD 0E001000        596                 DB 14,0,16,0
+04E1 0B090E10        597                 DB 11,9,14,16
+04E5 0E000900        598                 DB 14,0,9,0
+04E9 0607090B        599                 DB 6,7,9,11
+04ED 0E001000        600                 DB 14,0,16,0
+04F1 00000000        601                 DB 0,0,0,0
+04F5 15000000        602                 DB 21,0,0,0
+04F9 0045            603                 DB 0, 69
+                     604     
+                     605                 END         
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE    11
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+AS5. . . . . . . .  C ADDR   01D1H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+B6 . . . . . . . .  C ADDR   01B3H   A   
+CHK. . . . . . . .  C ADDR   008EH   A   
+CHK0 . . . . . . .  C ADDR   01ABH   A   
+CHK1 . . . . . . .  C ADDR   016AH   A   
+CHK11. . . . . . .  C ADDR   017EH   A   
+CHK14. . . . . . .  C ADDR   0183H   A   
+CHK16. . . . . . .  C ADDR   0188H   A   
+CHK18. . . . . . .  C ADDR   018DH   A   
+CHK19. . . . . . .  C ADDR   0192H   A   
+CHK21. . . . . . .  C ADDR   0197H   A   
+CHK22. . . . . . .  C ADDR   019CH   A   
+CHK23. . . . . . .  C ADDR   01A1H   A   
+CHK33. . . . . . .  C ADDR   01A6H   A   
+CHK6 . . . . . . .  C ADDR   016FH   A   
+CHK7 . . . . . . .  C ADDR   0174H   A   
+CHK9 . . . . . . .  C ADDR   0179H   A   
+CONT . . . . . . .  C ADDR   005FH   A   
+CONT2. . . . . . .  C ADDR   01B0H   A   
+CONT3. . . . . . .  C ADDR   0087H   A   
+CONTCHK. . . . . .  C ADDR   0084H   A   
+CS5. . . . . . . .  C ADDR   01F5H   A   
+CS6. . . . . . . .  C ADDR   01CBH   A   
+D5 . . . . . . . .  C ADDR   01EFH   A   
+DELAY. . . . . . .  C ADDR   0229H   A   
+DELAY160US . . . .  C ADDR   029CH   A   
+DELAY40MS. . . . .  C ADDR   027EH   A   
+DELAY8MS . . . . .  C ADDR   028BH   A   
+DISPLAY. . . . . .  C ADDR   0244H   A   
+DISPLAYSCR . . . .  C ADDR   0095H   A   
+DL . . . . . . . .  C ADDR   022BH   A   
+DL40 . . . . . . .  C ADDR   0282H   A   
+DL8. . . . . . . .  C ADDR   0291H   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+DS4. . . . . . . .  C ADDR   01FBH   A   
+DS5. . . . . . . .  C ADDR   01E9H   A   
+DS6. . . . . . . .  C ADDR   01C5H   A   
+DSP. . . . . . . .  C ADDR   0250H   A   
+ENDSCR . . . . . .  C ADDR   02A5H   A   
+F5 . . . . . . . .  C ADDR   01E3H   A   
+F6 . . . . . . . .  C ADDR   01BFH   A   
+FS5. . . . . . . .  C ADDR   01DDH   A   
+FS6. . . . . . . .  C ADDR   01B9H   A   
+GS3. . . . . . . .  C ADDR   0201H   A   
+GS5. . . . . . . .  C ADDR   01D7H   A   
+IDELAY . . . . . .  C ADDR   0275H   A   
+IDL. . . . . . . .  C ADDR   0277H   A   
+LOOP . . . . . . .  C ADDR   020FH   A   
+MAIN . . . . . . .  C ADDR   0030H   A   
+MUSIC. . . . . . .  C ADDR   02F5H   A   
+MUTE . . . . . . .  C ADDR   0216H   A   
+NEXT . . . . . . .  C ADDR   0248H   A   
+NON. . . . . . . .  C ADDR   0207H   A   
+OK . . . . . . . .  C ADDR   0093H   A   
+OUT. . . . . . . .  C ADDR   0240H   A   
+OUTPUT . . . . . .  C ADDR   020DH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+A51 MACRO ASSEMBLER  MELODYSCOREKEY                                                       06/16/2024 18:18:44 PAGE    12
+
+P2 . . . . . . . .  D ADDR   00A0H   A   
+REST . . . . . . .  C ADDR   0220H   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SCOREINC . . . . .  C ADDR   0234H   A   
+SETCURSOR. . . . .  C ADDR   0255H   A   
+SOUND. . . . . . .  C ADDR   0214H   A   
+STOP . . . . . . .  C ADDR   0091H   A   
+TAB2 . . . . . . .  C ADDR   02B5H   A   
+TAB3 . . . . . . .  C ADDR   02C6H   A   
+TAB4 . . . . . . .  C ADDR   02D5H   A   
+TAB7 . . . . . . .  C ADDR   02E4H   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+WAIT . . . . . . .  C ADDR   0224H   A   
+WRDATA . . . . . .  C ADDR   0267H   A   
+WRINS. . . . . . .  C ADDR   0259H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

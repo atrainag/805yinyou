@@ -1,0 +1,847 @@
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Bass.obj
+ASSEMBLER INVOKED BY: D:\Jericho\School\Microprocessor\Keil\C51\BIN\A51.EXE Bass.a51 SET(SMALL) DEBUG PRINT(.\Listings\B
+                      ass.lst) OBJECT(.\Objects\Bass.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;==================================================
+                       2     ;INITIALIZATION
+                       3     ;==================================================
+0000                   4                 ORG          0000H
+0000 758920            5                 MOV          TMOD, #00100000B
+0003 758DE8            6                 MOV          TH1, #232
+0006 758BE8            7                 MOV          TL1, #232
+0009 D28E              8                 SETB         TR1
+000B 759870            9                 MOV          SCON, #01110000B
+000E 5135             10                 ACALL        DELAY
+0010 7438             11                 MOV          A, #38H
+0012 517A             12                 ACALL        WRINS
+0014 7438             13                 MOV          A, #38H
+0016 517A             14                 ACALL        WRINS
+0018 7438             15                 MOV          A, #38H
+001A 517A             16                 ACALL        WRINS
+001C 7438             17                 MOV          A, #38H
+001E 517A             18                 ACALL        WRINS
+0020 7408             19                 MOV          A, #08H
+0022 517A             20                 ACALL        WRINS
+0024 7401             21                 MOV          A, #01H
+0026 517A             22                 ACALL        WRINS
+0028 7406             23                 MOV          A, #06H
+002A 517A             24                 ACALL        WRINS
+002C 740C             25                 MOV          A, #0CH
+002E 517A             26                 ACALL        WRINS
+                      27     
+                      28     ;==================================================
+                      29     ;STARTUP
+                      30     ;==================================================
+0030 90052F           31     BEGIN:      MOV          DPTR, #STARTUP;LOAD-TEXT
+0033 7D38             32                 MOV          R5, #56; 7-TEXT
+0035 5157             33                 ACALL        CGRAM ;
+0037 7810             34                 MOV          R0, #16
+0039 798F             35                 MOV          R1, #10001111B
+003B                  36     TEXT1:      
+003B 5176             37                 ACALL        SETCURSOR
+003D 9004D4           38                 MOV          DPTR, #TAB1
+0040 5165             39                 ACALL        DISPLAY
+0042 19               40                 DEC          R1
+0043 7E22             41                 MOV          R6, #34
+0045 5196             42                 ACALL        IDELAY
+0047 D8F2             43                 DJNZ         R0, TEXT1
+0049 7EC8             44                 MOV          R6, #200
+004B 5196             45                 ACALL        IDELAY
+004D 780A             46                 MOV          R0, #10
+004F 798F             47                 MOV          R1, #10001111B
+0051                  48     TEXT2:      
+0051 5176             49                 ACALL        SETCURSOR
+0053 9004DB           50                 MOV          DPTR, #TAB2
+0056 5165             51                 ACALL        DISPLAY
+0058 19               52                 DEC          R1
+0059 7E18             53                 MOV          R6, #24
+005B 5196             54                 ACALL        IDELAY
+005D D8F2             55                 DJNZ         R0, TEXT2
+005F 7EC8             56                 MOV          R6, #200
+0061 5196             57                 ACALL        IDELAY
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     2
+
+0063 5196             58                 ACALL        IDELAY
+                      59     
+                      60     ;==================================================
+                      61     ; MAIN
+                      62     ;==================================================
+0065 79C0             63                 MOV          R1, #11000000B
+0067                  64     MAIN:       
+0067 5176             65                 ACALL        SETCURSOR
+0069 9004E2           66                 MOV          DPTR, #TAB3
+006C 5165             67                 ACALL        DISPLAY
+006E 117B             68                 ACALL        MDELAY
+0070 5176             69                 ACALL        SETCURSOR
+0072 9004EE           70                 MOV          DPTR, #TAB4
+0075 5165             71                 ACALL        DISPLAY
+0077 117B             72                 ACALL        MDELAY
+0079 0167             73                 AJMP         MAIN
+                      74     
+007B AEFF             75     MDELAY:     MOV          R6, 255
+007D 7FFF             76     MDL:        MOV          R7, #255
+007F DFFE             77                 DJNZ         R7, $
+0081 30900C           78                 JNB          P1.0, START
+0084 309109           79                 JNB          P1.1, START
+0087 309206           80                 JNB          P1.2, START
+008A 309303           81                 JNB          P1.3, START
+008D DEEE             82                 DJNZ         R6, MDL
+008F 22               83                 RET         
+                      84     
+0090                  85     START:      
+0090 31CA             86                 ACALL        SWITCH_ANIM
+0092 7980             87                 MOV          R1, #10000000B
+0094 5176             88                 ACALL        SETCURSOR
+0096 9004FB           89                 MOV          DPTR,#TAB5
+0099 5165             90                 ACALL        DISPLAY
+009B 79C0             91                 MOV          R1, #11000000B
+009D 5176             92                 ACALL        SETCURSOR
+009F 900508           93                 MOV          DPTR,#TAB6
+00A2 5165             94                 ACALL        DISPLAY
+00A4 9002CD           95                 MOV          DPTR, #MUSIC
+00A7 759927           96                 MOV          SBUF, #39
+00AA C299             97                 CLR          TI
+00AC 3099FD           98                 JNB          TI, $
+                      99     
+00AF                 100     STARTDLY:   
+00AF 7F0F            101                             MOV          R7,#15
+00B1 7EFF            102     STARTDL:        MOV          R6,#255
+00B3 DEFE            103                 DJNZ         R6,$ 
+00B5 DFFA            104                         DJNZ         R7,STARTDL
+00B7                 105     CONT:       
+00B7                 106     CONT3:      
+00B7 E4              107                 CLR          A
+00B8 93              108                 MOVC         A, @A+DPTR
+00B9 B42802          109                 CJNE         A, #40, CHK
+00BC 21F4            110                 AJMP         ENDSCR
+00BE B4FF02          111     CHK:        CJNE         A, #255, OK
+00C1 01C1            112     STOP:       AJMP         STOP
+00C3 7C01            113     OK:         MOV          R4, #1
+00C5 01C7            114                 AJMP         CHK1
+                     115     
+                     116         
+                     117     ;==================================================
+                     118     ;CHECK NOTE
+                     119     ;==================================================
+00C7 B40102          120     CHK1:       CJNE         A, #1, CHK7
+00CA 312E            121                 ACALL        B6
+00CC B40702          122     CHK7:       CJNE         A, #7, CHK9
+00CF 3134            123                 ACALL        F6
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     3
+
+00D1 B40902          124     CHK9:       CJNE         A, #9, CHK11
+00D4 313A            125                 ACALL        DS6
+00D6 B40B02          126     CHK11:      CJNE         A, #11, CHK14
+00D9 3140            127                 ACALL        CS6
+00DB B40E02          128     CHK14:      CJNE         A, #14, CHK16
+00DE 3146            129                 ACALL        AS5
+00E0 B41002          130     CHK16:      CJNE         A, #16, CHK18
+00E3 314C            131                 ACALL        GS5
+00E5 B41202          132     CHK18:      CJNE         A, #18, CHK19
+00E8 3152            133                 ACALL        FS5
+00EA B41302          134     CHK19:      CJNE         A, #19, CHK21
+00ED 3158            135                 ACALL        F5
+00EF B41502          136     CHK21:      CJNE         A, #21, CHK23
+00F2 315E            137                 ACALL        DS5
+00F4 B41702          138     CHK23:      CJNE         A, #23, CHK25
+00F7 3164            139                 ACALL        CS5
+00F9 B41902          140     CHK25:      CJNE         A, #25, CHK26
+00FC 316A            141                 ACALL        B4
+00FE B41A02          142     CHK26:      CJNE         A, #26, CHK28
+0101 3170            143                 ACALL        AS4
+0103 B41C02          144     CHK28:      CJNE         A, #28, CHK30
+0106 3176            145                 ACALL        GS4
+0108 B41E02          146     CHK30:      CJNE         A, #30, CHK31
+010B 317C            147                 ACALL        FS4
+010D B41F02          148     CHK31:      CJNE         A, #31, CHK33
+0110 3182            149                 ACALL        F4
+0112 B42102          150     CHK33:      CJNE         A, #33, CHK34
+0115 3188            151                 ACALL        DS4
+0117 B42202          152     CHK34:      CJNE         A, #34, CHK35
+011A 318E            153                 ACALL        D4
+011C B42302          154     CHK35:      CJNE         A, #35, CHK37
+011F 3194            155                 ACALL        CS4
+0121 B42502          156     CHK37:      CJNE         A, #37, CHK0
+0124 319A            157                 ACALL        B3
+0126 B40002          158     CHK0:       CJNE         A, #00, CONT2
+0129 31A6            159                 ACALL        NON
+012B A3              160     CONT2:      INC          DPTR
+012C 01B7            161                 AJMP         CONT
+                     162     
+                     163     ;==================================================
+                     164     ;NOTE FREQUENCIES
+                     165     ;==================================================
+012E 7E10            166     B6:         MOV          R6, #16
+0130 7DF7            167                 MOV          R5, #247
+0132 21AC            168                 AJMP         OUTPUT
+0134 7E17            169     F6:         MOV          R6, #23
+0136 7DAF            170                 MOV          R5, #175
+0138 21AC            171                 AJMP         OUTPUT
+013A 7E1A            172     DS6:        MOV          R6, #26
+013C 7D9C            173                 MOV          R5, #156
+013E 21AC            174                 AJMP         OUTPUT
+0140 7E1D            175     CS6:        MOV          R6, #29
+0142 7D8B            176                 MOV          R5, #139
+0144 21AC            177                 AJMP         OUTPUT
+0146 7E23            178     AS5:        MOV          R6, #35
+0148 7D74            179                 MOV          R5, #116
+014A 21AC            180                 AJMP         OUTPUT
+014C 7E28            181     GS5:        MOV          R6, #40
+014E 7D68            182                 MOV          R5, #104
+0150 21AC            183                 AJMP         OUTPUT
+0152 7E2C            184     FS5:        MOV          R6, #44
+0154 7D5C            185                 MOV          R5, #92
+0156 21AC            186                 AJMP         OUTPUT
+0158 7E2F            187     F5:         MOV          R6, #47
+015A 7D57            188                 MOV          R5, #87
+015C 21AC            189                 AJMP         OUTPUT
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     4
+
+015E 7E35            190     DS5:        MOV          R6, #53
+0160 7D4E            191                 MOV          R5, #78
+0162 21AC            192                 AJMP         OUTPUT
+0164 7E3C            193     CS5:        MOV          R6, #60
+0166 7D45            194                 MOV          R5, #69
+0168 21AC            195                 AJMP         OUTPUT
+016A 7E43            196     B4:         MOV          R6, #67
+016C 7D3E            197                 MOV          R5, #62
+016E 21AC            198                 AJMP         OUTPUT
+0170 7E47            199     AS4:        MOV          R6, #71
+0172 7D3A            200                 MOV          R5, #58
+0174 21AC            201                 AJMP         OUTPUT
+0176 7E50            202     GS4:        MOV          R6, #80
+0178 7D34            203                 MOV          R5, #52
+017A 21AC            204                 AJMP         OUTPUT
+017C 7E59            205     FS4:        MOV          R6, #89
+017E 7D2E            206                 MOV          R5, #46
+0180 21AC            207                 AJMP         OUTPUT
+0182 7E5F            208     F4:         MOV          R6, #95
+0184 7D2C            209                 MOV          R5, #44
+0186 21AC            210                 AJMP         OUTPUT
+0188 7E6B            211     DS4:        MOV          R6, #107
+018A 7D27            212                 MOV          R5, #39
+018C 21AC            213                 AJMP         OUTPUT
+018E 7E71            214     D4:         MOV          R6, #113
+0190 7D25            215                 MOV          R5, #37
+0192 21AC            216                 AJMP         OUTPUT
+0194 7E78            217     CS4:        MOV          R6, #120
+0196 7D23            218                 MOV          R5, #35
+0198 21AC            219                 AJMP         OUTPUT
+019A 7E86            220     B3:         MOV          R6, #134
+019C 7D1F            221                 MOV          R5, #31
+019E 21AC            222                 AJMP         OUTPUT
+01A0 7EA0            223     GS3:        MOV          R6, #160
+01A2 7D1A            224                 MOV          R5, #26
+01A4 21AC            225                 AJMP         OUTPUT
+01A6 7E21            226     NON:        MOV          R6, #33
+01A8 7D7C            227                 MOV          R5, #124
+01AA 21AC            228                 AJMP         OUTPUT
+                     229     
+                     230     ;==================================================
+                     231     ;SING
+                     232     ;==================================================
+01AC C005            233     OUTPUT:     PUSH         05
+01AE B40002          234     LOOP:       CJNE         A, #00, SOUND
+01B1 21B5            235                 AJMP         MUTE
+01B3 C2A6            236     SOUND:      CLR          P2.6
+01B5 5135            237     MUTE:       ACALL        DELAY
+01B7 D2A6            238                 SETB         P2.6
+01B9 5135            239                 ACALL        DELAY
+01BB DDF1            240                 DJNZ         R5, LOOP
+01BD D005            241                 POP          05
+01BF DCEB            242                 DJNZ         R4, OUTPUT
+01C1 7EAA            243     REST:       MOV          R6, #170
+01C3 7D14            244                 MOV          R5, #20
+01C5 5140            245     WAIT:       ACALL        CHKDELAY
+01C7 DDFC            246                 DJNZ         R5, WAIT
+01C9 22              247                 RET         
+                     248                 
+                     249     ;==================================================
+                     250     ;ANIMATION
+                     251     ;==================================================
+01CA                 252     SWITCH_ANIM:
+01CA 900569          253                 MOV          DPTR, #STAB1
+01CD 31D5            254                 ACALL        SLOOP
+01CF 900567          255                 MOV          DPTR, #WHITE
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     5
+
+01D2 31D5            256                 ACALL        SLOOP
+01D4 22              257                 RET         
+01D5                 258     SLOOP:      
+01D5 7810            259                 MOV          R0, #16
+01D7 798F            260                 MOV          R1, #10001111B
+01D9 5176            261     SWITCH1:    ACALL        SETCURSOR
+01DB 5165            262                 ACALL        DISPLAY
+01DD 19              263                 DEC          R1
+01DE 7E0F            264                 MOV          R6, #15
+01E0 5196            265                 ACALL        IDELAY
+01E2 D8F5            266                 DJNZ         R0, SWITCH1
+01E4 7810            267                 MOV          R0, #16
+01E6 79CF            268                 MOV          R1, #11001111B
+01E8 5176            269     SWITCH2:    ACALL        SETCURSOR
+01EA 5165            270                 ACALL        DISPLAY
+01EC 19              271                 DEC          R1
+01ED 7E0F            272                 MOV          R6, #15
+01EF 5196            273                 ACALL        IDELAY
+01F1 D8F5            274                 DJNZ         R0, SWITCH2
+01F3 22              275                 RET         
+                     276     
+                     277     ;==================================================
+                     278     ; END SCREEN 
+                     279     ;==================================================
+01F4                 280     ENDSCR:    
+01F4 7980            281                 MOV          R1, #10000000B
+01F6 5176            282                 ACALL        SETCURSOR
+01F8 900514          283                 MOV          DPTR, #TAB7
+01FB 5165            284                 ACALL        DISPLAY
+01FD 79C0            285                 MOV          R1, #11000000B
+01FF 5176            286                 ACALL        SETCURSOR
+0201 900525          287                 MOV          DPTR, #TAB8
+0204 5165            288                 ACALL        DISPLAY
+0206 30900B          289     WAITKEY:    JNB          P1.0,RETRY
+0209 309108          290                 JNB          P1.1,RETRY
+020C 309205          291                 JNB          P1.2,RETRY
+020F 309302          292                 JNB          P1.3,RETRY
+0212 4106            293                 AJMP WAITKEY
+0214 743B            294     RETRY:      MOV          A,#59
+0216 F599            295                 MOV          SBUF,A
+0218 C299            296                 CLR          TI
+021A 3099FD          297                 JNB          TI,$
+021D 0130            298                 AJMP         BEGIN
+                     299     
+                     300     ;==================================================
+                     301     ; TRANSFER KEY
+                     302     ;==================================================
+021F                 303     CASE0:          
+021F 743F            304                 MOV                      A,#00111111B
+0221 412F            305                                   AJMP                   RELEASE       
+0223                 306     CASE1:          
+0223 74CF            307                 MOV                      A,#11001111B
+0225 412F            308                                   AJMP                   RELEASE      
+0227                 309     CASE2:          
+0227 74F3            310                 MOV                      A,#11110011B
+0229 412F            311                 AJMP                     RELEASE      
+022B                 312     CASE3:          
+022B 74FC            313                 MOV                      A,#11111100B
+022D 412F            314                 AJMP                     RELEASE
+022F                 315     RELEASE:        
+022F F599            316                 MOV                      SBUF,A
+0231 C299            317                 CLR          TI
+0233 414E            318                 AJMP         CHKDL
+                     319     
+                     320     ;==================================================
+                     321     ; ADDITIONAL FUNCTIONS
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     6
+
+                     322     ;==================================================
+0235 8EF0            323     DELAY:      MOV          B, R6
+0237 7F06            324     DL:         MOV          R7, #6
+0239 DFFE            325                 DJNZ         R7, $
+023B DEFA            326                 DJNZ         R6, DL
+023D AEF0            327                 MOV          R6, B
+023F 22              328                 RET         
+                     329     
+0240 8EF0            330     CHKDELAY:      MOV          B, R6
+0242 3090DA          331                 JNB          P1.0,CASE0
+0245 3091DB          332                 JNB          P1.1,CASE1
+0248 3092DC          333                 JNB          P1.2,CASE2
+024B 3093DD          334                 JNB          P1.3,CASE3    
+024E 7F06            335     CHKDL:         MOV          R7, #6
+0250 DFFE            336                 DJNZ         R7, $
+0252 DEFA            337                 DJNZ         R6, CHKDL
+0254 AEF0            338                 MOV          R6, B
+0256 22              339                 RET         
+                     340     
+0257 7440            341     CGRAM:      MOV          A, #01000000B
+0259 517A            342                 ACALL        WRINS
+025B 7C00            343                 MOV          R4, #0;
+025D EC              344     CGRAMLOOP:  MOV          A, R4
+025E 93              345                 MOVC         A, @A+DPTR
+025F 5188            346                 ACALL        WRDATA
+0261 0C              347                 INC          R4
+0262 DDF9            348                 DJNZ         R5, CGRAMLOOP
+0264 22              349                 RET         
+                     350     
+0265 C007            351     DISPLAY:    PUSH         07
+0267 7F00            352                 MOV          R7, #00H
+0269 EF              353     NEXT:       MOV          A, R7
+026A 93              354                 MOVC         A, @A+DPTR
+026B B41003          355                 CJNE         A, #10H, DSP
+026E D007            356                 POP          07
+0270 22              357                 RET         
+                     358     
+0271 5188            359     DSP:        ACALL        WRDATA
+0273 0F              360                 INC          R7
+0274 4169            361                 AJMP         NEXT
+                     362     
+0276                 363     SETCURSOR:  
+0276 E9              364                 MOV          A, R1
+0277 517A            365                 ACALL        WRINS
+0279 22              366                 RET         
+                     367     
+027A                 368     WRINS:      
+027A 75903F          369                 MOV          P1, #00111111B
+027D 00              370                 NOP         
+027E D297            371                 SETB         P1.7
+0280 F580            372                 MOV          P0, A
+0282 00              373                 NOP         
+0283 C297            374                 CLR          P1.7
+0285 51B3            375                 ACALL        DELAY8MS
+0287 22              376                 RET         
+0288                 377     WRDATA:     
+0288 75907F          378                 MOV          P1, #01111111B
+028B 00              379                 NOP         
+028C D297            380                 SETB         P1.7
+028E F580            381                 MOV          P0, A
+0290 00              382                 NOP         
+0291 C297            383                 CLR          P1.7
+0293 51C4            384                 ACALL        DELAY160US
+0295 22              385                 RET         
+                     386     
+0296 8EF0            387     IDELAY:     MOV          B, R6
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     7
+
+0298 7FC8            388     IDL:        MOV          R7, #200
+029A DFFE            389                 DJNZ         R7, $
+029C DEFA            390                 DJNZ         R6, IDL
+029E AEF0            391                 MOV          R6, B
+02A0 22              392                 RET         
+                     393     
+02A1 7E50            394     IDELAY2:    MOV          R6, #80
+02A3 DEFE            395                 DJNZ         R6, $
+02A5 22              396                 RET         
+02A6                 397     DELAY40MS:  
+02A6 C007            398                 PUSH         07
+02A8 7E64            399                 MOV          R6, #100
+02AA 7FC8            400     DL40:       MOV          R7, #200
+02AC DFFE            401                 DJNZ         R7, $
+02AE DEFA            402                 DJNZ         R6, DL40
+02B0 D007            403                 POP          07
+02B2 22              404                 RET         
+02B3                 405     DELAY8MS:   
+02B3 C007            406                 PUSH         07
+02B5 C006            407                 PUSH         06
+02B7 7E14            408                 MOV          R6, #20
+02B9 7FC8            409     DL8:        MOV          R7, #200
+02BB DFFE            410                 DJNZ         R7, $
+02BD DEFA            411                 DJNZ         R6, DL8
+02BF D006            412                 POP          06
+02C1 D007            413                 POP          07
+02C3 22              414                 RET         
+                     415     
+02C4                 416     DELAY160US: 
+02C4 C006            417                 PUSH         06
+02C6 7E50            418                 MOV          R6, #80
+02C8 DEFE            419                 DJNZ         R6, $
+02CA D006            420                 POP          06
+02CC 22              421                 RET         
+                     422           
+                     423     ;==================================================
+                     424     ;MUSIC
+                     425     ;==================================================
+02CD                 426     MUSIC:      
+02CD 00000000        427                 DB           0, 0, 0, 0
+02D1 211A211A        428                 DB           33, 26, 33, 26
+02D5 211A211A        429                 DB           33, 26, 33, 26
+02D9 211A211A        430                 DB           33, 26, 33, 26
+02DD 211A211A        431                 DB           33, 26, 33, 26
+02E1 251E251E        432                 DB           37, 30, 37, 30
+02E5 251E251E        433                 DB           37, 30, 37, 30
+02E9 231C231C        434                 DB           35, 28, 35, 28
+02ED 221A221A        435                 DB           34, 26, 34, 26
+02F1 211A211A        436                 DB           33, 26, 33, 26
+02F5 211A211A        437                 DB           33, 26, 33, 26
+02F9 211A211A        438                 DB           33, 26, 33, 26
+02FD 211A211A        439                 DB           33, 26, 33, 26
+0301 251E251E        440                 DB           37, 30, 37, 30
+0305 251E251E        441                 DB           37, 30, 37, 30
+0309 231C231C        442                 DB           35, 28, 35, 28
+030D 221A221A        443                 DB           34, 26, 34, 26
+0311 211A211A        444                 DB           33, 26, 33, 26
+0315 211A211A        445                 DB           33, 26, 33, 26
+0319 211A211A        446                 DB           33, 26, 33, 26
+031D 211A211A        447                 DB           33, 26, 33, 26
+0321 251E251E        448                 DB           37, 30, 37, 30
+0325 251E251E        449                 DB           37, 30, 37, 30
+0329 231C231C        450                 DB           35, 28, 35, 28
+032D 221A221A        451                 DB           34, 26, 34, 26
+0331 211A211A        452                 DB           33, 26, 33, 26
+0335 211A211A        453                 DB           33, 26, 33, 26
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     8
+
+0339 211A211A        454                 DB           33, 26, 33, 26
+033D 211A211A        455                 DB           33, 26, 33, 26
+0341 251E251E        456                 DB           37, 30, 37, 30
+0345 251E251E        457                 DB           37, 30, 37, 30
+0349 1C000000        458                 DB           28, 0, 0, 0
+034D 1E000000        459                 DB           30, 0, 0, 0
+0351 211A211A        460                 DB           33, 26, 33, 26
+0355 211A211A        461                 DB           33, 26, 33, 26
+0359 211A211A        462                 DB           33, 26, 33, 26
+035D 211A211A        463                 DB           33, 26, 33, 26
+0361 251E251E        464                 DB           37, 30, 37, 30
+0365 251E251E        465                 DB           37, 30, 37, 30
+0369 231C231C        466                 DB           35, 28, 35, 28
+036D 221A221A        467                 DB           34, 26, 34, 26
+0371 211A211A        468                 DB           33, 26, 33, 26
+0375 151A211A        469                 DB           21, 26, 33, 26
+0379 211A211A        470                 DB           33, 26, 33, 26
+037D 211A211A        471                 DB           33, 26, 33, 26
+0381 251E251E        472                 DB           37, 30, 37, 30
+0385 251E251E        473                 DB           37, 30, 37, 30
+0389 231C231C        474                 DB           35, 28, 35, 28
+038D 221A221A        475                 DB           34, 26, 34, 26
+0391 211A211A        476                 DB           33, 26, 33, 26
+0395 211A211A        477                 DB           33, 26, 33, 26
+0399 211A211A        478                 DB           33, 26, 33, 26
+039D 211A211A        479                 DB           33, 26, 33, 26
+03A1 251E251E        480                 DB           37, 30, 37, 30
+03A5 251E251E        481                 DB           37, 30, 37, 30
+03A9 231C231C        482                 DB           35, 28, 35, 28
+03AD 221A221A        483                 DB           34, 26, 34, 26
+03B1 211A211A        484                 DB           33, 26, 33, 26
+03B5 151A211A        485                 DB           21, 26, 33, 26
+03B9 211A211A        486                 DB           33, 26, 33, 26
+03BD 211A211A        487                 DB           33, 26, 33, 26
+03C1 251E251E        488                 DB           37, 30, 37, 30
+03C5 251E251E        489                 DB           37, 30, 37, 30
+03C9 231C231C        490                 DB           35, 28, 35, 28
+03CD 221A221A        491                 DB           34, 26, 34, 26
+03D1 211A211A        492                 DB           33, 26, 33, 26
+03D5 211A211A        493                 DB           33, 26, 33, 26
+03D9 211A211A        494                 DB           33, 26, 33, 26
+03DD 211A211A        495                 DB           33, 26, 33, 26
+03E1 251E251E        496                 DB           37, 30, 37, 30
+03E5 251E251E        497                 DB           37, 30, 37, 30
+03E9 231C231C        498                 DB           35, 28, 35, 28
+03ED 221A221A        499                 DB           34, 26, 34, 26
+03F1 211A211A        500                 DB           33, 26, 33, 26
+03F5 211A211A        501                 DB           33, 26, 33, 26
+03F9 211A211A        502                 DB           33, 26, 33, 26
+03FD 211A211A        503                 DB           33, 26, 33, 26
+0401 251E251E        504                 DB           37, 30, 37, 30
+0405 251E251E        505                 DB           37, 30, 37, 30
+0409 231C231C        506                 DB           35, 28, 35, 28
+040D 221A221A        507                 DB           34, 26, 34, 26
+0411 211A211A        508                 DB           33, 26, 33, 26
+0415 211A211A        509                 DB           33, 26, 33, 26
+0419 211A211A        510                 DB           33, 26, 33, 26
+041D 211A211A        511                 DB           33, 26, 33, 26
+0421 251E251E        512                 DB           37, 30, 37, 30
+0425 251E251E        513                 DB           37, 30, 37, 30
+0429 231C231C        514                 DB           35, 28, 35, 28
+042D 221A221A        515                 DB           34, 26, 34, 26
+0431 211A211A        516                 DB           33, 26, 33, 26
+0435 211A211A        517                 DB           33, 26, 33, 26
+0439 211A211A        518                 DB           33, 26, 33, 26
+043D 211A211A        519                 DB           33, 26, 33, 26
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE     9
+
+0441 251E251E        520                 DB           37, 30, 37, 30
+0445 251E251E        521                 DB           37, 30, 37, 30
+0449 231C231C        522                 DB           35, 28, 35, 28
+044D 221A0E0B        523                 DB           34, 26, 14, 11
+0451 25090E10        524                 DB           37, 9, 14, 16
+0455 0E00100E        525                 DB           14, 0, 16, 14
+0459 23090E10        526                 DB           35, 9, 14, 16
+045D 0E00100E        527                 DB           14, 0, 16, 14
+0461 2112131F        528                 DB           33, 18, 19, 31
+0465 1E001F1E        529                 DB           30, 0, 31, 30
+0469 2112100E        530                 DB           33, 18, 16, 14
+046D 1E000E0B        531                 DB           30, 0, 14, 11
+0471 25090E10        532                 DB           37, 9, 14, 16
+0475 0E00100E        533                 DB           14, 0, 16, 14
+0479 23090E10        534                 DB           35, 9, 14, 16
+047D 0E00100E        535                 DB           14, 0, 16, 14
+0481 2112131F        536                 DB           33, 18, 19, 31
+0485 1E001F1E        537                 DB           30, 0, 31, 30
+0489 1312100E        538                 DB           19, 18, 16, 14
+048D 1E000E0B        539                 DB           30, 0, 14, 11
+0491 251E1925        540                 DB           37, 30, 25, 37
+0495 1E19250E        541                 DB           30, 25, 37, 14
+0499 231C1723        542                 DB           35, 28, 23, 35
+049D 1C17230E        543                 DB           28, 23, 35, 14
+04A1 211A1521        544                 DB           33, 26, 21, 33
+04A5 1A152115        545                 DB           26, 21, 33, 21
+04A9 211A1521        546                 DB           33, 26, 21, 33
+04AD 1A15210B        547                 DB           26, 21, 33, 11
+04B1 251E1925        548                 DB           37, 30, 25, 37
+04B5 1E19250E        549                 DB           30, 25, 37, 14
+04B9 231C1723        550                 DB           35, 28, 23, 35
+04BD 1C172307        551                 DB           28, 23, 35, 7
+04C1 211A1521        552                 DB           33, 26, 21, 33
+04C5 1A15210E        553                 DB           26, 21, 33, 14
+04C9 10121317        554                 DB           16, 18, 19, 23
+04CD 1C001E00        555                 DB           28, 0, 30, 0
+04D1 2101            556                 DB           33, 1
+04D3 28              557                 DB           40
+                     558     
+                     559     ;==================================================
+                     560     ;TEXT-TABLES
+                     561     ;==================================================
+04D4 4D435335        562     TAB1:       DB           'MCS5'
+04D8 312D            563                 DB           '1-'
+04DA 10              564                 DB           10H
+                     565     
+04DB 00              566     TAB2:       DB           00H
+04DC 01              567                 DB           01H
+04DD 02              568                 DB           02H
+04DE 03              569                 DB           03H
+04DF 04              570                 DB           04H
+04E0 20              571                 DB           ' '
+04E1 10              572                 DB           10H
+                     573     
+04E2                 574     TAB3:           
+04E2 20202020        575                 DB                  '    '                          
+04E6 3C5354          576                 DB                  '<ST'
+04E9 4152543E        577                                   DB                        'ART>'  
+04ED 10              578                             DB                      10H
+                     579     
+04EE 20202020        580     TAB4:                   DB                      '    '                          
+04F2 20202020        581                             DB                      '    '
+04F6 20202020        582                 DB                  '    '
+04FA 10              583                                   DB                        10H
+                     584     
+04FB 506C6179        585     TAB5:       DB          'Playi'
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE    10
+
+04FF 69                      
+0500 6E672D4E        586                 DB          'ng-No'
+0504 6F                      
+0505 773A            587                 DB          'w:'
+0507 10              588                 DB          10H
+                     589     
+0508 42616420        590     TAB6:       DB          'Bad A'
+050C 41                      
+050D 70706C65        591                 DB          'pple'
+0511 05              592                 DB          05H
+0512 06              593                 DB          06H
+0513 10              594                 DB          10H
+                     595     
+0514 50524553        596     TAB7:       DB          'PRESS'
+0518 53                      
+0519 20414E59        597                 DB          ' ANY '
+051D 20                      
+051E 4B455920        598                 DB          'KEY T'
+0522 54                      
+0523 4F              599                 DB          'O'
+0524 10              600                 DB          10H
+                     601     
+0525 20434F4E        602     TAB8:       DB          ' CONT'
+0529 54                      
+052A 494E5545        603                 DB          'INUE'
+052E 10              604                 DB          10H
+                     605     
+                     606     ;==================================================
+                     607     ;CUSTOM-TEXT
+                     608     ;==================================================
+052F 01              609     STARTUP:    DB           00000001B
+0530 0F              610                 DB           00001111B
+0531 02              611                 DB           00000010B
+0532 1F              612                 DB           00011111B
+0533 04              613                 DB           00000100B
+0534 07              614                 DB           00000111B
+0535 04              615                 DB           00000100B
+0536 07              616                 DB           00000111B
+                     617     
+0537 00              618                 DB           00000000B
+0538 1C              619                 DB           00011100B
+0539 08              620                 DB           00001000B
+053A 1F              621                 DB           00011111B
+053B 04              622                 DB           00000100B
+053C 14              623                 DB           00010100B
+053D 04              624                 DB           00000100B
+053E 1C              625                 DB           00011100B
+                     626     
+053F 02              627                 DB           00000010B
+0540 01              628                 DB           00000001B
+0541 02              629                 DB           00000010B
+0542 01              630                 DB           00000001B
+0543 00              631                 DB           00000000B
+0544 01              632                 DB           00000001B
+0545 01              633                 DB           00000001B
+0546 06              634                 DB           00000110B
+                     635     
+0547 04              636                 DB           00000100B
+0548 1F              637                 DB           00011111B
+0549 08              638                 DB           00001000B
+054A 0F              639                 DB           00001111B
+054B 09              640                 DB           00001001B
+054C 09              641                 DB           00001001B
+054D 11              642                 DB           00010001B
+054E 12              643                 DB           00010010B
+                     644     
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE    11
+
+054F 08              645                 DB           00001000B
+0550 0E              646                 DB           00001110B
+0551 10              647                 DB           00010000B
+0552 0C              648                 DB           00001100B
+0553 02              649                 DB           00000010B
+0554 0F              650                 DB           00001111B
+0555 02              651                 DB           00000010B
+0556 0C              652                 DB           00001100B
+                     653     
+0557 00              654                 DB           00000000B
+0558 00              655                 DB           00000000B
+0559 00              656                 DB           00000000B
+055A 00              657                 DB           00000000B
+055B 07              658                 DB           00000111B
+055C 0F              659                 DB           00001111B
+055D 1F              660                 DB           00011111B
+055E 0F              661                 DB           00001111B
+                     662     
+055F 1C              663                 DB           00011100B
+0560 1E              664                 DB           00011110B
+0561 1B              665                 DB           00011011B
+0562 18              666                 DB           00011000B
+0563 18              667                 DB           00011000B
+0564 18              668                 DB           00011000B
+0565 10              669                 DB           00010000B
+0566 00              670                 DB           00000000B
+                     671     
+0567 FE              672     WHITE:      DB           11111110B
+0568 10              673                 DB           10H
+                     674     
+0569 FF              675     STAB1:      DB           11111111B
+056A 10              676                 DB           10H
+                     677                 END         
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE    12
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+AS4. . . . . . . .  C ADDR   0170H   A   
+AS5. . . . . . . .  C ADDR   0146H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+B3 . . . . . . . .  C ADDR   019AH   A   
+B4 . . . . . . . .  C ADDR   016AH   A   
+B6 . . . . . . . .  C ADDR   012EH   A   
+BEGIN. . . . . . .  C ADDR   0030H   A   
+CASE0. . . . . . .  C ADDR   021FH   A   
+CASE1. . . . . . .  C ADDR   0223H   A   
+CASE2. . . . . . .  C ADDR   0227H   A   
+CASE3. . . . . . .  C ADDR   022BH   A   
+CGRAM. . . . . . .  C ADDR   0257H   A   
+CGRAMLOOP. . . . .  C ADDR   025DH   A   
+CHK. . . . . . . .  C ADDR   00BEH   A   
+CHK0 . . . . . . .  C ADDR   0126H   A   
+CHK1 . . . . . . .  C ADDR   00C7H   A   
+CHK11. . . . . . .  C ADDR   00D6H   A   
+CHK14. . . . . . .  C ADDR   00DBH   A   
+CHK16. . . . . . .  C ADDR   00E0H   A   
+CHK18. . . . . . .  C ADDR   00E5H   A   
+CHK19. . . . . . .  C ADDR   00EAH   A   
+CHK21. . . . . . .  C ADDR   00EFH   A   
+CHK23. . . . . . .  C ADDR   00F4H   A   
+CHK25. . . . . . .  C ADDR   00F9H   A   
+CHK26. . . . . . .  C ADDR   00FEH   A   
+CHK28. . . . . . .  C ADDR   0103H   A   
+CHK30. . . . . . .  C ADDR   0108H   A   
+CHK31. . . . . . .  C ADDR   010DH   A   
+CHK33. . . . . . .  C ADDR   0112H   A   
+CHK34. . . . . . .  C ADDR   0117H   A   
+CHK35. . . . . . .  C ADDR   011CH   A   
+CHK37. . . . . . .  C ADDR   0121H   A   
+CHK7 . . . . . . .  C ADDR   00CCH   A   
+CHK9 . . . . . . .  C ADDR   00D1H   A   
+CHKDELAY . . . . .  C ADDR   0240H   A   
+CHKDL. . . . . . .  C ADDR   024EH   A   
+CONT . . . . . . .  C ADDR   00B7H   A   
+CONT2. . . . . . .  C ADDR   012BH   A   
+CONT3. . . . . . .  C ADDR   00B7H   A   
+CS4. . . . . . . .  C ADDR   0194H   A   
+CS5. . . . . . . .  C ADDR   0164H   A   
+CS6. . . . . . . .  C ADDR   0140H   A   
+D4 . . . . . . . .  C ADDR   018EH   A   
+DELAY. . . . . . .  C ADDR   0235H   A   
+DELAY160US . . . .  C ADDR   02C4H   A   
+DELAY40MS. . . . .  C ADDR   02A6H   A   
+DELAY8MS . . . . .  C ADDR   02B3H   A   
+DISPLAY. . . . . .  C ADDR   0265H   A   
+DL . . . . . . . .  C ADDR   0237H   A   
+DL40 . . . . . . .  C ADDR   02AAH   A   
+DL8. . . . . . . .  C ADDR   02B9H   A   
+DS4. . . . . . . .  C ADDR   0188H   A   
+DS5. . . . . . . .  C ADDR   015EH   A   
+DS6. . . . . . . .  C ADDR   013AH   A   
+DSP. . . . . . . .  C ADDR   0271H   A   
+ENDSCR . . . . . .  C ADDR   01F4H   A   
+F4 . . . . . . . .  C ADDR   0182H   A   
+F5 . . . . . . . .  C ADDR   0158H   A   
+F6 . . . . . . . .  C ADDR   0134H   A   
+FS4. . . . . . . .  C ADDR   017CH   A   
+A51 MACRO ASSEMBLER  BASS                                                                 06/16/2024 18:16:32 PAGE    13
+
+FS5. . . . . . . .  C ADDR   0152H   A   
+GS3. . . . . . . .  C ADDR   01A0H   A   
+GS4. . . . . . . .  C ADDR   0176H   A   
+GS5. . . . . . . .  C ADDR   014CH   A   
+IDELAY . . . . . .  C ADDR   0296H   A   
+IDELAY2. . . . . .  C ADDR   02A1H   A   
+IDL. . . . . . . .  C ADDR   0298H   A   
+LOOP . . . . . . .  C ADDR   01AEH   A   
+MAIN . . . . . . .  C ADDR   0067H   A   
+MDELAY . . . . . .  C ADDR   007BH   A   
+MDL. . . . . . . .  C ADDR   007DH   A   
+MUSIC. . . . . . .  C ADDR   02CDH   A   
+MUTE . . . . . . .  C ADDR   01B5H   A   
+NEXT . . . . . . .  C ADDR   0269H   A   
+NON. . . . . . . .  C ADDR   01A6H   A   
+OK . . . . . . . .  C ADDR   00C3H   A   
+OUTPUT . . . . . .  C ADDR   01ACH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+RELEASE. . . . . .  C ADDR   022FH   A   
+REST . . . . . . .  C ADDR   01C1H   A   
+RETRY. . . . . . .  C ADDR   0214H   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SETCURSOR. . . . .  C ADDR   0276H   A   
+SLOOP. . . . . . .  C ADDR   01D5H   A   
+SOUND. . . . . . .  C ADDR   01B3H   A   
+STAB1. . . . . . .  C ADDR   0569H   A   
+START. . . . . . .  C ADDR   0090H   A   
+STARTDL. . . . . .  C ADDR   00B1H   A   
+STARTDLY . . . . .  C ADDR   00AFH   A   
+STARTUP. . . . . .  C ADDR   052FH   A   
+STOP . . . . . . .  C ADDR   00C1H   A   
+SWITCH1. . . . . .  C ADDR   01D9H   A   
+SWITCH2. . . . . .  C ADDR   01E8H   A   
+SWITCH_ANIM. . . .  C ADDR   01CAH   A   
+TAB1 . . . . . . .  C ADDR   04D4H   A   
+TAB2 . . . . . . .  C ADDR   04DBH   A   
+TAB3 . . . . . . .  C ADDR   04E2H   A   
+TAB4 . . . . . . .  C ADDR   04EEH   A   
+TAB5 . . . . . . .  C ADDR   04FBH   A   
+TAB6 . . . . . . .  C ADDR   0508H   A   
+TAB7 . . . . . . .  C ADDR   0514H   A   
+TAB8 . . . . . . .  C ADDR   0525H   A   
+TEXT1. . . . . . .  C ADDR   003BH   A   
+TEXT2. . . . . . .  C ADDR   0051H   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+WAIT . . . . . . .  C ADDR   01C5H   A   
+WAITKEY. . . . . .  C ADDR   0206H   A   
+WHITE. . . . . . .  C ADDR   0567H   A   
+WRDATA . . . . . .  C ADDR   0288H   A   
+WRINS. . . . . . .  C ADDR   027AH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

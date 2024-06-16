@@ -8,7 +8,6 @@ def format_assembly_file(file_path):
         lines = file.readlines()
 
     for i in range(len(lines)):
-        funcHead = ":" in lines[i]
         temp = lines[i].replace('\n',' ').replace('\t',' ').split(" ")
         filt = list(filter(lambda x: x!="",temp))
         for j in range(len(filt)):
@@ -30,14 +29,21 @@ def format_assembly_file(file_path):
                 c+=b[j]
         filt = c.split(" ")  
         sep = len(filt) 
+        funcHead = ":" in filt[0]
         if(funcHead):
-            temp = ("{:12s}"*(sep)).format(*filt)
+            if(sep>=2):
+                temp = ("{:12s}"*(2)+" {:s}"*(sep-2)).format(*filt)
+            else:
+                temp = ("{:12s}"*(sep)).format(*filt)
         elif(len(filt) <= 1 and filt[0] == ""):
             temp = ""
         elif(filt[0][0] == ';'):
-            temp = "".join(filt)
+            temp = " ".join(filt)
         else: 
-            temp = ("{:12s}"*(sep+1)).format("",*filt)
+            if(sep >= 2):
+                temp = ("{:12s}"*(2)+" {:s}"*(sep-1)).format("",*filt)
+            else:
+                temp = ("{:12s}"*(sep+1)).format("",*filt)
         lines[i] = temp
     formatted_lines = [line.upper() + '\n' for line in lines]
     with open(file_path, 'w') as file:

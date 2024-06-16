@@ -1,0 +1,3 @@
+".\Objects\Bass.obj" 
+TO ".\Objects\Bass" 
+PRINT(".\Listings\Bass.m51") RAMSIZE(256) 

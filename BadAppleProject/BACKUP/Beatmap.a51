@@ -1,35 +1,121 @@
+;==================================================
+; INITIALIZATION
+;==================================================
             ORG          0000H
+			      MOV			TMOD,#00100000B
+			      MOV			TH1,#232
+			      MOV			TL1,#232
+			      SETB		TR1
+			      MOV			SCON,#01110000B
             AJMP         MAIN
 
-MAIN:       MOV          DPTR, #TABLE
-;MOVR3,#940
+;==================================================
+; MAIN 
+;==================================================
+MAIN:       
+            MOV          DPTR, #TABLE
+            CLR          RI 
+            JNB          RI,$
+            MOV          A,SBUF
+            CJNE         A,#39,MAIN 
+            MOV          SBUF,#39
+            CLR          TI
+            JNB          TI,$
+            CLR          RI
+            MOV          R0, #10101010B  ;JUDGE ON LINE 7
+            MOV          R3, #10101010B  ;JUDGE ON LINE 6
 LOOP:       MOV          R2, #9
 SCAN:       ACALL        SCAN1
             DJNZ         R2, SCAN
             INC          DPTR
-            AJMP         LOOP
-;DJNZR3,LOOP
+            JNB          RI,CONTINUESC
+            MOV          A,SBUF
+            CLR          RI
+            AJMP         JUDGE
+CONTINUESC: MOV          A,#7
+            MOVC         A,@A+DPTR
+            CJNE         A,#10101010B,LOOP
             AJMP         MAIN
 
-SCAN1:      MOV          R1, #00H
+;==================================================
+;  JUDGE
+;==================================================
+JUDGE:
+            push 06
+            mov r6,a
+            mov a,r0
+            cjne a,#11111111B,contjudg1
+            ajmp contjudg2
+contjudg1:  cpl a
+            anl a,r6
+            jz pscore
+contjudg2:  mov a,r3
+            cjne a,#11111111B,contjudg3
+            ajmp miss
+contjudg3:  cpl a
+            anl a,r6
+            jz pscore
+            ajmp miss
+
+PSCORE:     
+            MOV         A, #11111110B
+            MOV         SBUF,A
+            CLR         TI
+            POP         06
+            AJMP        CONTINUESC
+MISS:
+            MOV         A, #11111101B
+            MOV         SBUF,A
+            CLR         TI
+            POP         06
+            AJMP        CONTINUESC
+
+delay:  push 06
+ push 07
+   mov r6,#250
+dl3:  mov r7,#200
+   djnz r7,$
+   djnz r6,dl3
+   pop 07
+   pop 06
+   ret
+
+
+;==================================================
+;  SCANNING 
+;==================================================
+SCAN1:      
+            MOV          R1, #00H
             MOV          R5, #11111110B
             MOV          R4, #08
 LOOP1:      MOV          A, R1
             MOVC         A, @A+DPTR
             MOV          P0, A
-            MOV          P1, R5
+            CJNE         R4, #8,CHKL7 ;CHECK LINE 7
+            AJMP         INSERTL7
+CHKL7:      CJNE         R4, #7,RETURNSC ;CHECK LINE 8
+            AJMP         INSERTL8
+RETURNSC:   MOV          P1, R5
             MOV          R6, #3
 DL1:        MOV          R7, #200
 DL2:        DJNZ         R7, DL2
             DJNZ         R6, DL1
-            ORL          P0, #00000000B
+            ORL          P0, #11111111B
             MOV          A, R5
             RL           A
             MOV          R5, A
             INC          R1
             DJNZ         R4, LOOP1
             RET         
+ 
+INSERTL7:   MOV          R0, A
+            AJMP         RETURNSC
+INSERTL8:   MOV          R3, A
+            AJMP         RETURNSC
 
+;==================================================
+; BEATMAP
+;==================================================
 TABLE:      
             DB           11111111B
             DB           11111111B
@@ -1047,13 +1133,13 @@ TABLE:
             DB           11111111B
             DB           11111111B
 
+            DB           11111111B
+            DB           11111111B
+            DB           11111111B
+            DB           11111111B
+            DB           11111111B
+            DB           11111111B
+            DB           11111111B
+            DB           10101010B
 
-            DB           11111111B
-            DB           11111111B
-            DB           11111111B
-            DB           11111111B
-            DB           11111111B
-            DB           11111111B
-            DB           11111111B
-            DB           11111111B
             END         

@@ -1,0 +1,3 @@
+".\Objects\MelodyScoreKey.obj" 
+TO ".\Objects\MelodyScoreKey" 
+PRINT(".\Listings\MelodyScoreKey.m51") RAMSIZE(256) 

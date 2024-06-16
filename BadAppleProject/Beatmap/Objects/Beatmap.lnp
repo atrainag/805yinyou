@@ -1,0 +1,3 @@
+".\Objects\Beatmap.obj" 
+TO ".\Objects\Beatmap" 
+PRINT(".\Listings\Beatmap.m51") RAMSIZE(256) 
