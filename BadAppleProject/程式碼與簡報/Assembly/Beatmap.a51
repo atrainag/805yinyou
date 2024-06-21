@@ -2,11 +2,11 @@
 ; INITIALIZATION
 ;==================================================
             ORG          0000H
-			      MOV			TMOD,#00100000B
-			      MOV			TH1,#232
-			      MOV			TL1,#232
-			      SETB		TR1
-			      MOV			SCON,#01110000B
+            MOV			 TMOD,#00100000B
+            MOV			 TH1,#232
+            MOV			 TL1,#232
+            SETB		 TR1
+            MOV			 SCON,#01110000B
             AJMP         MAIN
 
 ;==================================================
@@ -15,8 +15,8 @@
 MAIN:       
             MOV          DPTR, #TABLE
             CLR          RI 
-            JNB          RI,$
-            MOV          A,SBUF
+            JNB          RI,$  ; Wait for signal from Bass.a51
+            MOV          A,SBUF 
             CJNE         A,#39,MAIN 
             MOV          SBUF,#39
             CLR          TI
@@ -28,11 +28,11 @@ LOOP:       MOV          R2, #9
 SCAN:       ACALL        SCAN1
             DJNZ         R2, SCAN
             INC          DPTR
-            JNB          RI,CONTINUESC
-            MOV          A,SBUF
+            JNB          RI,CONTINUESC 
+            MOV          A,SBUF 
             CLR          RI
-            AJMP         JUDGE
-CONTINUESC: MOV          A,#7
+            AJMP         JUDGE  ; If receive signal from BassKey.a51
+CONTINUESC: MOV          A,#7 ; Continue showing the Beatmap
             MOVC         A,@A+DPTR
             CJNE         A,#10101010B,LOOP
             AJMP         MAIN
@@ -44,27 +44,27 @@ JUDGE:
             PUSH 06
             MOV R6,A
             MOV A,R0
-            CJNE A,#11111111B,CONTJUDG1
-            AJMP CONTJUDG2
-CONTJUDG1:  CPL A
-            ANL A,R6
-            JZ PSCORE
-CONTJUDG2:  MOV A,R3
-            CJNE A,#11111111B,CONTJUDG3
-            AJMP MISS
-CONTJUDG3:  CPL A
-            ANL A,R6
-            JZ PSCORE
-            AJMP MISS
+            CJNE A,#11111111B,CONTJUDG1 ; Check If Current Note is blank
+            AJMP CONTJUDG2 ; If not blank then we start judging
+CONTJUDG1:  CPL A 
+            ANL A,R6 ; If A and R6 is the same then ~A & A = 0
+            JZ PSCORE ; If A is indeed zero we go to Perfect Score
+CONTJUDG2:  MOV A,R3 ; If either CONTJUDG1 didn't jump to pscore or R0 is blank
+            CJNE A,#11111111B,CONTJUDG3 ; Check if Current Note is blank
+            AJMP MISS ; If every note is blank then it is a miss
+CONTJUDG3:  CPL A 
+            ANL A,R6; If A and R6 is the same then ~A & A = 0
+            JZ PSCORE ; If A is indeed zero we go to Perfect Score
+            AJMP MISS ; If did not jump then it's a miss
 
 PSCORE:     
-            MOV         A, #11111110B
+            MOV         A, #11111110B ; Send a signal of perfect score to MelodyScore.a51
             MOV         SBUF,A
             CLR         TI
             POP         06
             AJMP        CONTINUESC
 MISS:
-            MOV         A, #11111101B
+            MOV         A, #11111101B ; Send a signal of miss to MelodyScore.a51
             MOV         SBUF,A
             CLR         TI
             POP         06

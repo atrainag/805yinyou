@@ -2,11 +2,11 @@
 ; INITIALIZATION
 ;==================================================
             ORG          0000H
-            MOV			     TMOD,#00100000B
-            MOV			     TH1,#232
-            MOV			     TL1,#232
-            SETB		     TR1
-            MOV			     SCON,#01110000B
+            MOV			 TMOD,#00100000B
+            MOV			 TH1,#232
+            MOV			 TL1,#232
+            SETB		 TR1
+            MOV			 SCON,#01110000B
             ACALL        DELAY
             MOV          A, #38H
             ACALL        WRINS
@@ -34,16 +34,16 @@ MAIN:
 
             MOV          R1, #10000000B 
             ACALL        SETCURSOR
-            MOV          DPTR, #TAB3
+            MOV          DPTR, #TAB3 ; Waiting signal
             ACALL        DISPLAY
             ACALL        IDELAY
             MOV          R1, #10000000B 
             ACALL        SETCURSOR
-            MOV          DPTR, #TAB4
+            MOV          DPTR, #TAB4 ; (Blank)
             ACALL        DISPLAY
             MOV          R1, #11000000B 
             ACALL        SETCURSOR
-            MOV          DPTR, #TAB4
+            MOV          DPTR, #TAB4 
             ACALL        DISPLAY
             ACALL        IDELAY
 
@@ -86,139 +86,140 @@ OK:         AJMP         CHK1
 ; DISPLAY SCORE
 ;==================================================
 DISPLAYSCR:   
-
+            ; Load the High and Low byte to R4 and R5
             MOV         A,R0
             MOV         R4,A
             MOV         A,R3
             MOV         R5,A
 
-            MOV         A,          R4      
+            MOV         A,          R4 
             MOV         B,          #100    
-            DIV         AB     
-            MOV         A,          B 
-            MOV         B,          #10         
-            DIV         AB          
-            MOV         R2,         A
-            MOV         R3,         B
+            DIV         AB                  ; High/100, A = High的百 ，B = High的十  
+            MOV         A,          B       ; A = High的十
+            MOV         B,          #10     
+            DIV         AB                  ; A/10
+            MOV         R2,         A       ; R2 = A1 (PPT的)
+            MOV         R3,         B       ; R3 = A0 (PPT的)
 
             MOV         A,          R2          
             MOV         B,          #2          
-            MUL         AB          
+            MUL         AB                  ; 2*A1 
             MOV         B,          #10         
-            DIV         AB          
-            MOV         R0,         B
+            DIV         AB                  ; Handle Overflow (>9)
+            MOV         R0,         B       ; R0 = 2*A1 = 千(還沒加B)
 
-            MOV         A,          R3          
+            MOV         A,          R3       
             MOV         B,          #2          
-            MUL         AB          
+            MUL         AB                  ; 2*A0
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9) 
             MOV         R1,         B
-            ADD         A,          R0
-            MOV         R0,         A;          
+            ADD         A,          R0     
+            MOV         R0,         A;      ; Carry Over
 
             MOV         A,          R2          
             MOV         B,          #5          
-            MUL         AB          
+            MUL         AB                  ; 5*A1
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9)
             MOV         R6,         B
-            ADD         A,          R0
-            MOV         R0,         A;          
+            ADD         A,          R0      
+            MOV         R0,         A;      ; Carry Over    
 
             MOV         A,          R1          
-            ADD         A,          R6          
+            ADD         A,          R6      ; 2*A0 + 5*A1
             MOV         B,          #10
-            DIV         AB          
-            MOV         R1,         B
-            ADD         A,          R0          
-            MOV         R0,         A
+            DIV         AB                  ; Handle Overflow (>9) 
+            MOV         R1,         B       ; R1 = 2*A0 + 5*A1 = 百(還沒加B)
+            ADD         A,          R0           
+            MOV         R0,         A       ; Carry Over
 
             MOV         A,          R3          
             MOV         B,          #5          
-            MUL         AB          
+            MUL         AB                  ; 5 * A0
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9)
             MOV         R6,         B
             ADD         A,          R1
-            MOV         R1,         A           
+            MOV         R1,         A       ; Carry Over    
 
             MOV         A,          R2          
             MOV         B,          #6          
-            MUL         AB          
+            MUL         AB                  ; 6 * A1
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9)  
             MOV         R7,         B
             ADD         A,          R1
-            MOV         R1,         A           
+            MOV         R1,         A       ; Carry Over    
 
             MOV         A,          R6          
-            ADD         A,          R7          
+            ADD         A,          R7      ; 5*A0 + 6*A1    
             MOV         B,          #10
-            DIV         AB          
-            MOV         R6,         B
+            DIV         AB                  ; Handle Overflow (>9) 
+            MOV         R6,         B       ; R6 = 5*A0 + 6*A1 = 十 (還沒加B)
             ADD         A,          R1          
-            MOV         R1,         A
+            MOV         R1,         A       ; Carry Over
 
             MOV         A,          R3          
             MOV         B,          #6          
-            MUL         AB          
+            MUL         AB                  ; 6 * A0
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9)
             MOV         R7,         B
             ADD         A,          R6
-            MOV         R6,         A           
+            MOV         R6,         A       ; Carry Over    
 
 
             MOV         A,          R5
             MOV         B,          #100        
-            DIV         AB          
-            PUSH        B           
-            ADD         A,          R1
+            DIV         AB                  ; Low/100, A = Low的百 ，B = Low的十  
+            PUSH        B                   
+            ADD         A,          R1      ; R1 + B = 千
             MOV         B,          #10         
-            DIV         AB
-            MOV         R1,         B
+            DIV         AB                  ; Handle Overflow (>9)
+            MOV         R1,         B       
 
-            ADD         A,          R0
+            ADD         A,          R0      ; Carry Over 
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9)
             MOV         R0,         B           
             POP         B           
 
-            MOV         A,          B 
+            MOV         A,          B       
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Low的百/100, A = Low的十, B = Low的個
             PUSH        B           
-            ADD         A,          R6          
+            ADD         A,          R6      ; R6 + B(PPT的) = 百
             MOV         B,          #10         
-            DIV         AB
+            DIV         AB                  ; Handle Overflow (>9)
             MOV         R6,         B
 
-            ADD         A,          R1
+            ADD         A,          R1      ; Carry Over
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9)
             MOV         R1,         B           
-            ADD         A,          R0          
+            ADD         A,          R0      ; Carry Over    
             MOV         R0,         A           
             POP         B           
 
-            MOV         A,          B           
-            ADD         A,          R7          
-            MOV         B,          #10         
-            DIV         AB
-            MOV         R7,         B
+            MOV         A,          B       ; A = Low的個
+            ADD         A,          R7      ; R7 + B = 十    
+            MOV         B,          #10        
+            DIV         AB                  ; Handle Overflow (>9) 
+            MOV         R7,         B       
 
-            ADD         A,          R6
+            ADD         A,          R6      ; Carry Over
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9) 
             MOV         R6,         B           
-            ADD         A,          R1
+            ADD         A,          R1      ; Carry Over
             MOV         B,          #10         
-            DIV         AB          
+            DIV         AB                  ; Handle Overflow (>9) 
             MOV         R1,         B           
-            ADD         A,          R0          
+            ADD         A,          R0      ; Carry Over      
             MOV         R0,         A           
 
+            ;CONVERT TO ASCII
             MOV         A,          R0         
             ADD         A,          #30H 
             ACALL       WRDATA 
@@ -235,6 +236,7 @@ DISPLAYSCR:
             ADD         A,          #30H        
             ACALL       WRDATA     
 
+            ;RESTORE TO R0 R3
             MOV         A,R4
             MOV         R0,A
             MOV         A,R5
@@ -441,6 +443,7 @@ ENDSCR:
             JNB          RI,$
             CLR          RI
             AJMP         MAIN
+
 ;==================================================
 ;TEXT-TABLES
 ;==================================================

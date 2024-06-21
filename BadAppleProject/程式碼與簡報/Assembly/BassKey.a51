@@ -33,7 +33,7 @@ BEGIN:      MOV          DPTR, #STARTUP;LOAD-TEXT
             ACALL        CGRAM 
             MOV          R0, #16
             MOV          R1, #10001111B
-TEXT1:      
+TEXT1: ; Animation for MCS51------
             ACALL        SETCURSOR
             MOV          DPTR, #TAB1
             ACALL        DISPLAY
@@ -45,7 +45,7 @@ TEXT1:
             ACALL        IDELAY
             MOV          R0, #10
             MOV          R1, #10001111B
-TEXT2:      
+TEXT2: ; Animation for the 音游 
             ACALL        SETCURSOR
             MOV          DPTR, #TAB2
             ACALL        DISPLAY
@@ -61,18 +61,20 @@ TEXT2:
 ; MAIN
 ;==================================================
             MOV          R1, #11000000B
-MAIN:       
+MAIN:        
+            ; Blinking Start
             ACALL        SETCURSOR
-            MOV          DPTR, #TAB3
+            MOV          DPTR, #TAB3  ; <Start>
             ACALL        DISPLAY
             ACALL        MDELAY
             ACALL        SETCURSOR
-            MOV          DPTR, #TAB4
+            MOV          DPTR, #TAB4 ; (Blank)
             ACALL        DISPLAY
             ACALL        MDELAY
             AJMP         MAIN
 
-MDELAY:     MOV          R6, 255
+MDELAY:     ; A special delay for detecting a button is pressed or not while waiting
+            MOV          R6, 255 
 MDL:        MOV          R7, #255
             DJNZ         R7, $
             JNB          P1.0, START
@@ -83,7 +85,7 @@ MDL:        MOV          R7, #255
             RET         
 
 START:      
-            ACALL        SWITCH_ANIM
+            ACALL        SWITCH_ANIM  ; Play an animation of swiping black and white
             MOV          R1, #10000000B
             ACALL        SETCURSOR
             MOV          DPTR,#TAB5
@@ -93,23 +95,20 @@ START:
             MOV          DPTR,#TAB6
             ACALL        DISPLAY
             MOV          DPTR, #MUSIC
-            MOV          SBUF, #39
+            MOV          SBUF, #39  ; Send a special signal that indicates start to Beatmap.a51  
             CLR          TI
             JNB          TI, $
 
-STARTDLY:   
- 			MOV          R7,#15
-STARTDL:	MOV          R6,#255
+STARTDLY:  ; A delay to wait for the melody to start playing 
+            MOV          R7,#15
+STARTDL:	  MOV          R6,#255
             DJNZ         R6,$ 
-		    DJNZ         R7,STARTDL
-CONT:       
-CONT3:      
+            DJNZ         R7,STARTDL
+CONT:      
             CLR          A
             MOVC         A, @A+DPTR
-            CJNE         A, #40, CHK
-            AJMP         ENDSCR
-CHK:        CJNE         A, #255, OK
-STOP:       AJMP         STOP
+            CJNE         A, #40, CHK ; Is song finished?
+            AJMP         ENDSCR ; If yes jump to endscreen 
 OK:         MOV          R4, #1
             AJMP         CHK1
 
@@ -242,7 +241,7 @@ MUTE:       ACALL        DELAY
             DJNZ         R4, OUTPUT
 REST:       MOV          R6, #171
             MOV          R5, #20
-WAIT:       ACALL        CHKDELAY
+WAIT:       ACALL        CHKDELAY 
             DJNZ         R5, WAIT
             RET         
             
@@ -280,18 +279,18 @@ SWITCH2:    ACALL        SETCURSOR
 ENDSCR:    
             MOV          R1, #10000000B
             ACALL        SETCURSOR
-            MOV          DPTR, #TAB7
+            MOV          DPTR, #TAB7 ; Press Any Key to Continue
             ACALL        DISPLAY
             MOV          R1, #11000000B
             ACALL        SETCURSOR
             MOV          DPTR, #TAB8
             ACALL        DISPLAY
-WAITKEY:    JNB          P1.0,RETRY
+WAITKEY:    JNB          P1.0,RETRY ;Waiting for a press on any button 
             JNB          P1.1,RETRY
             JNB          P1.2,RETRY
             JNB          P1.3,RETRY
             AJMP WAITKEY
-RETRY:      MOV          A,#59
+RETRY:      MOV          A,#59 ; Special signal to tell Beatmap.a51 and MelodyScore to reset.
             MOV          SBUF,A
             CLR          TI
             JNB          TI,$
@@ -313,7 +312,7 @@ CASE3:
             MOV			     A,#11111100B
             AJMP		     RELEASE
 RELEASE: 	
-            MOV 		     SBUF,A
+            MOV 		     SBUF,A ; Transfer the pressed key to Beatmap.a51
             CLR          TI
             AJMP         CHKDL
 
@@ -327,12 +326,13 @@ DL:         MOV          R7, #6
             MOV          R6, B
             RET         
 
-CHKDELAY:      MOV          B, R6
+CHKDELAY:   ; A special delay to simultaneously check for button when the SPEAK(P2.6) is resting.  
+            MOV          B, R6
             JNB          P1.0,CASE0
             JNB          P1.1,CASE1
             JNB          P1.2,CASE2
             JNB          P1.3,CASE3    
-CHKDL:         MOV          R7, #6
+CHKDL:      MOV          R7, #6
             DJNZ         R7, $
             DJNZ         R6, CHKDL
             MOV          R6, B
@@ -384,14 +384,16 @@ WRDATA:
             ACALL        DELAY160US
             RET         
 
-IDELAY:     MOV          B, R6
+IDELAY:     ; A custom delay for animation
+            MOV          B, R6  
 IDL:        MOV          R7, #200
             DJNZ         R7, $
             DJNZ         R6, IDL
             MOV          R6, B
             RET         
 
-IDELAY2:    MOV          R6, #80
+IDELAY2:    ; A custom delay for animation
+            MOV          R6, #80
             DJNZ         R6, $
             RET         
 DELAY40MS:  
@@ -606,7 +608,9 @@ TAB8:       DB          ' CONT'
 ;==================================================
 ;CUSTOM-TEXT
 ;==================================================
-STARTUP:    DB           00000001B
+STARTUP:    
+            ;Left of 音
+            DB           00000001B
             DB           00001111B
             DB           00000010B
             DB           00011111B
@@ -615,6 +619,7 @@ STARTUP:    DB           00000001B
             DB           00000100B
             DB           00000111B
 
+            ;Right of 音
             DB           00000000B
             DB           00011100B
             DB           00001000B
@@ -624,6 +629,7 @@ STARTUP:    DB           00000001B
             DB           00000100B
             DB           00011100B
 
+            ;Right of 游
             DB           00000010B
             DB           00000001B
             DB           00000010B
@@ -633,6 +639,7 @@ STARTUP:    DB           00000001B
             DB           00000001B
             DB           00000110B
 
+            ;Middle of 游
             DB           00000100B
             DB           00011111B
             DB           00001000B
@@ -642,6 +649,7 @@ STARTUP:    DB           00000001B
             DB           00010001B
             DB           00010010B
 
+            ;Left of 游
             DB           00001000B
             DB           00001110B
             DB           00010000B
@@ -651,6 +659,7 @@ STARTUP:    DB           00000001B
             DB           00000010B
             DB           00001100B
 
+            ;Music Symbol Left
             DB           00000000B
             DB           00000000B
             DB           00000000B
@@ -660,6 +669,7 @@ STARTUP:    DB           00000001B
             DB           00011111B
             DB           00001111B
 
+            ;Music Symbol Right 
             DB           00011100B
             DB           00011110B
             DB           00011011B

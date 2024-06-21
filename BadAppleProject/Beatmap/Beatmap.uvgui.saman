@@ -15,7 +15,7 @@
     <View>
       <WinId>38003</WinId>
       <ViewName>Registers</ViewName>
-      <TableColWidths>126 56</TableColWidths>
+      <TableColWidths>115 67</TableColWidths>
     </View>
     <View>
       <WinId>346</WinId>
@@ -1865,9 +1865,9 @@
       <ActiveTab>0</ActiveTab>
       <Doc>
         <Name>.\Beatmap.a51</Name>
-        <ColumnNumber>51</ColumnNumber>
-        <TopLine>73</TopLine>
-        <CurrentLine>118</CurrentLine>
+        <ColumnNumber>26</ColumnNumber>
+        <TopLine>87</TopLine>
+        <CurrentLine>95</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>

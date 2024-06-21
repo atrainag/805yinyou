@@ -1,8 +1,8 @@
-def round_numbers_in_file(filename):
+def round_numbers_in_file(filename,output_filename):
     with open(filename, 'r') as file:
         lines = file.readlines()
 
-    with open(filename, 'w') as file:
+    with open(output_filename, 'w') as file:
         for line in lines:
             parts = line.split()
             if len(parts) == 2 and parts[1].replace('.', '', 1).isdigit():
@@ -13,4 +13,5 @@ def round_numbers_in_file(filename):
 
 # Specify the filename
 filename = 'NotesFreq.txt'
-round_numbers_in_file(filename)
+output_filename = 'NotesFreqRounded.txt'
+round_numbers_in_file(filename,output_filename)
